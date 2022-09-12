@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "angular-project-rwa"
+  },
+  "targets": {
+    "angular-project-rwa": {
+      "hosting": {
+        "angular-project": [
+          "angular-project-rwa"
+        ]
+      }
+    }
+  }
+}
