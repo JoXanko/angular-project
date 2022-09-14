@@ -1,0 +1,10 @@
+.wholePage{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+}

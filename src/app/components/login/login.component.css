@@ -1,0 +1,40 @@
+.wholePage {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-top: 5em;
+}
+h1 {
+  font-size: 3em;
+  font-weight: 600;
+  line-height: 1em;
+  color: rgb(15, 90, 124);
+}
+.img {
+  width: 45%;
+  border-radius: 0.7em;
+}
+.loginDiv {
+  width: 30%;
+}
+/*.leftSide{    
+    width:65%;
+    height: 100%;
+}*/
+/* .card {
+  /* width: 25%;
+  position: absolute;
+  left: 70%;
+  bottom: 45%; 
+} */
+/* .field {
+  display: flex;
+  flex-direction: column;
+} */
+/* .loggedIn{
+    width: 100%;
+    height: 100%;
+} */

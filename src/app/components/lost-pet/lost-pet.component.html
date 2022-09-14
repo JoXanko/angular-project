@@ -1,0 +1,64 @@
+<div class="wholePage">
+  <google-map
+    (mapClick)="clk($event)"
+    height="500px"
+    width="700px"
+    [center]="center"
+    [zoom]="12"
+  >
+    <map-marker [position]="marker" [options]="markerOptions"> </map-marker>
+  </google-map>
+  <div class="inputs">
+    <h3>Adresa: {{ address }}</h3>
+    <!-- <mat-form-field appearance="fill">
+  <mat-label>Izaberite rasu</mat-label>
+  <mat-select [formControl]="breedControl" required>
+    <mat-option *ngFor="let rasa of breeds" [value]="rasa">
+      {{ rasa }}
+       <mat-option *ngFor="let rasa of rase" [value]="rasa.value">
+      {{rasa.viewValue}} 
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="breedControl.hasError('required')">Morate izabrati rasu</mat-error>
+</mat-form-field> -->
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Izaberite rasu</mat-label>
+      <input
+        type="text"
+        matInput
+        [formControl]="breedControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ime ljubimca</mat-label>
+      <input
+        type="text"
+        matInput
+        [formControl]="nameControl"
+        [errorStateMatcher]="matcher"
+        placeholder=""
+      />
+      <mat-error
+        *ngIf="
+          nameControl.hasError('text') && !nameControl.hasError('required')
+        "
+      >
+        Unesite ime
+      </mat-error>
+      <mat-error *ngIf="nameControl.hasError('required')">
+        Morate uneti <strong>ime</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

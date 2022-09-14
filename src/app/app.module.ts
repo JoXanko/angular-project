@@ -10,36 +10,57 @@ import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginComponent } from './components/login/login.component';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+// import { MainPageComponent } from './components/main-page/main-page.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
 
 
-/*const firebaseConfig = {
-  apiKey: 'AIzaSyDYOI-ryBmzkJqcBOIM8SqozvMgCwUGtls',
-  authDomain: 'angular-project-rwa.firebaseapp.com',
-  projectId: 'angular-project-rwa',
-  storageBucket: 'angular-project-rwa.appspot.com',
-  messagingSenderId: '577775773036',
-  appId: '1:577775773036:web:ca465b09d32c96bc983f49',
-  measurementId: 'G-1QLYHM9FC4',
-};
+import { HeaderComponent } from './components/header/header.component';
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);*/
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCarouselModule } from 'ng-mat-carousel';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { LostPetComponent } from './components/lost-pet/lost-pet.component';
+
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HeaderComponent,
+    routingComponents,
+    LostPetComponent,
+  ],
   imports: [
+    MatCarouselModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFireAuthModule,
-    /*provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())*/
+    MatSnackBarModule,
+    AppRoutingModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatIconModule,
+    GoogleMapsModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent],
