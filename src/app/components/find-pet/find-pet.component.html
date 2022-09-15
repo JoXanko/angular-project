@@ -1,0 +1,21 @@
+<div class="mapClass">
+  <google-map
+    (mapClick)="clk($event)"
+    height="500px"
+    width="900px"
+    [center]="center"
+    [zoom]="13"
+    streetViewControl:false
+    [options]="mapOptions"
+  >
+    <map-marker
+      [position]="myMarker"
+      [options]="myMarkerOptions"
+      [icon]="myMarkerIco"
+    >
+    </map-marker>
+  </google-map>
+</div>
+<button mat-stroked-button (click)="myLocation()">
+    Koristi moju lokaciju
+  </button>

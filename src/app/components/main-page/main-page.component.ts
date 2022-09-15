@@ -6,12 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-page.component.css'],
 })
 export class MainPageComponent implements OnInit {
-  show: boolean = false;
+  showLost: boolean = false;
+  showFind: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}
-  showForm() {
+  showLostForm() {
     //nece moz ovako zeza posle loggout
-    this.show = !this.show;
+    this.showLost = !this.showLost;
+    this.showFind ? this.showFind=!this.showFind:'';
+  }
+  showFindForm() {
+    //nece moz ovako zeza posle loggout
+    this.showFind = !this.showFind;
+    this.showLost? this.showLost=!this.showLost:'';
   }
 }

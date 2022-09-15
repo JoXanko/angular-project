@@ -1,14 +1,14 @@
 <app-header></app-header>
 <div class="wholePage">
   <mat-card>
-    <button mat-stroked-button class="btnStyle">
+    <button mat-stroked-button class="btnStyle" (click)="showFindForm()">
       <div class="imgStyle">
         <img width="100em" src="../../../assets/photos/found.png" />
       </div>
       ljubimci u mojoj okolini
     </button>
 
-    <button mat-stroked-button class="btnStyle" (click)="showForm()">
+    <button mat-stroked-button class="btnStyle" (click)="showLostForm()">
       <div class="imgStyle">
         <img width="100em" src="../../../assets/photos/lost.png" />
       </div>
@@ -16,5 +16,6 @@
     </button>
   </mat-card>
 
-  <app-lost-pet *ngIf="show"> </app-lost-pet>
+  <app-lost-pet *ngIf="showLost"> </app-lost-pet>
+  <app-find-pet *ngIf="showFind"> </app-find-pet>
 </div>

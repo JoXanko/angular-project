@@ -1,22 +1,14 @@
 // import { google } from '@agm/core/services/google-maps-types';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
-@Component({
-  selector: 'app-lost-pet',
-  templateUrl: './lost-pet.component.html',
-  styleUrls: ['./lost-pet.component.css'],
-})
-export class LostPetComponent implements OnInit {
-  breedControl = new FormControl<string | null>(null, Validators.required);
-  nameControl = new FormControl('', [Validators.required]);
   isErrorState(
     control: FormControl | null,
     form: FormGroupDirective | NgForm | null
@@ -28,6 +20,33 @@ export class LostPetComponent implements OnInit {
       (control.dirty || control.touched || isSubmitted)
     );
   }
+}
+@Component({
+  selector: 'app-lost-pet',
+  templateUrl: './lost-pet.component.html',
+  styleUrls: ['./lost-pet.component.css'],
+})
+export class LostPetComponent implements OnInit {
+  imageFile:any;
+  breedControl = new FormControl<string | null>(null, Validators.required);
+  nameControl = new FormControl('', [Validators.required]);  
+  phoneControl = new FormControl('', [Validators.required]);
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+  markerIco = {
+    url: '../../../assets/photos/markerPaw.png',
+    scaledSize: new google.maps.Size(35, 55),
+  };
+
   matcher = new MyErrorStateMatcher();
   filteredOptions: Observable<string[]> | undefined;
   geocoder = new google.maps.Geocoder();
@@ -46,6 +65,9 @@ export class LostPetComponent implements OnInit {
   value = '';
   marker: any;
   // options={options: {animation:google.maps.Animation.DROP}};
+  mapOptions: google.maps.MapOptions = {
+    streetViewControl: false,
+  };
   center: google.maps.LatLngLiteral = {
     lat: 43.32472,
     lng: 21.90333,
@@ -76,5 +98,19 @@ export class LostPetComponent implements OnInit {
     return this.breeds.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
+  }
+  onFileSelected() {
+    const inputNode: any = document.querySelector('#file');
+
+    if (typeof FileReader !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.imageFile = e.target.result;
+      };
+
+      reader.readAsArrayBuffer(inputNode.files[0]);
+      console.log(this.imageFile)
+    }
   }
 }

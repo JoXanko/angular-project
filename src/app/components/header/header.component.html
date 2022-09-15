@@ -2,7 +2,17 @@
   <mat-toolbar color="primary" class="matTB">
     <span>Psa nadji</span>
     <span class="example-spacer"></span>
-    <button (click)="auth.signOut()" mat-icon-button>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://headlines.peta.org/donate/?en_txn7=Navigation::top-donate-now-button&supporter.appealCode=IXXXWBXXXXG#donate"
+    >
+      <button mat-icon-button matTooltip="Donirajte novac organizaciji za zastitu zivotinja"
+      >
+        <mat-icon fontIcon="volunteer_activism"></mat-icon>
+      </button>
+    </a>
+    <button (click)="auth.signOut()" mat-icon-button matTooltip="Odjavite se">
       <mat-icon fontIcon="logout"></mat-icon>
     </button>
   </mat-toolbar>
