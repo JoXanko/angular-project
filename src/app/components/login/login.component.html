@@ -1,28 +1,35 @@
+<!-- <img
+  class="gif"
+  id="gif"
+  src="../../../assets/photos/pawsTransparent.gif"
+  width="200px"
+/> -->
 <router-outlet></router-outlet>
-<div *ngIf="auth.show" class="wholePage">
-  <!-- <img
+<!-- <img
       src="../../../assets/photos/login1.jpg"
       src="../../../assets/photos/login2.jpg"
       class="img"
     /> -->
-  <!-- <img class="img" src="../../../assets/photos/photo1.jpg" /> -->
-  <div class="loginDiv">
-    <div *ngIf="auth.user$ | async; then authenticated; else guest">
-      <!-- template will replace this div -->
-    </div>
+<!-- <img class="img" src="../../../assets/photos/photo1.jpg" /> -->
 
-    <!-- User NOT logged in -->
-    <ng-template #guest>
-      <img class="img" src="../../../assets/photos/photo1.jpg" />
+<div *ngIf="auth.user$ | async; then authenticated; else guest">
+  <!-- template will replace this div -->
+</div>
+
+<!-- User NOT logged in -->
+<ng-template #guest>
+  <div *ngIf="auth.show" class="wholePage">
+    <img class="img" src="{{ this.slides[this.imageNum] }}" />
+    <div class="loginDiv">
       <h1>Pomozite izgubljenim ljubimcima da se vrate svojim vlasnicima</h1>
       <h3>Da biste pristupili sajtu povezite se sa vasim Gmail nalogom.</h3>
 
       <button mat-stroked-button (click)="auth.googleSignin()">
         <i class="fa fa-google"></i> Connect Google
       </button>
-    </ng-template>
-
-    <!-- User logged in -->
-    <ng-template #authenticated> </ng-template>
+    </div>
   </div>
-</div>
+</ng-template>
+
+<!-- User logged in -->
+<ng-template #authenticated> </ng-template>

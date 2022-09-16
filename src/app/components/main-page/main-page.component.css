@@ -10,6 +10,8 @@
   width: 250px;
   font-size: 25px;
   white-space: normal;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 .imgStyle{
   display: block;

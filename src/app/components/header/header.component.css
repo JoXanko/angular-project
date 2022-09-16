@@ -2,12 +2,24 @@
   flex: 1 1 auto;
 }
 .matTB {
-  padding-left: 4em;
-  padding-right: 3em;
-  position: fixed;
+  height: 4em;
+  padding-left: 6em;
+  padding-right: 6em;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
+  background: linear-gradient(225deg, #0582b7, #069ad9);
+  box-shadow: -20px 20px 60px #b1b1b1, 20px -20px 60px #e2e2e2;
 }
-a { color: inherit; } 
+a {
+  color: inherit;
+}
+.ico{
+  transform: scale(1.5);
+}
+.btns{
+  margin-left: 0.7em;
+  margin-right: 0.7em;
+}

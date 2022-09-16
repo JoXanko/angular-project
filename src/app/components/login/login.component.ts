@@ -9,28 +9,30 @@ import { MatCarousel, MatCarouselComponent } from 'ng-mat-carousel';
 })
 export class LoginComponent implements OnInit {
   // hide:boolean=true;
+
+  numOfImages = 3;
+  imageNum: number = Math.floor(Math.random() * this.numOfImages);
+
   slides = [
-    {
-      image:
-        'https://images.pexels.com/photos/1452717/pexels-photo-1452717.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      image:
-        'https://images.pexels.com/photos/1612861/pexels-photo-1612861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      image:
-        'https://images.pexels.com/photos/1448055/pexels-photo-1448055.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
+    '../../../assets/photos/photo1.jpg',
+    '../../../assets/photos/photo2.jpg',
+    '../../../assets/photos/photo3.jpg',
   ];
   constructor(public auth: AuthService) {}
 
   ngOnInit(): void {
     // this.hide=true;
+    this.slides[this.imageNum];
+    let paws = document.getElementById('gif');
+    let randX = (Math.random() * document.body.offsetHeight) | 0;
+    let randY = (Math.random() * document.body.offsetWidth) | 0;
+    if (paws != null) {
+      paws.style.top = randX + "px";
+      paws.style.left = randY + "px";
+    }
   }
 
   // hideLogin(){//nece moz ovako zeza posle loggout
   //   this.hide=!this.hide;
   // }
 }
-
