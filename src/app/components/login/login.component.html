@@ -1,11 +1,11 @@
 <router-outlet></router-outlet>
-<div *ngIf="hide" class="wholePage">
+<div *ngIf="auth.show" class="wholePage">
   <!-- <img
       src="../../../assets/photos/login1.jpg"
       src="../../../assets/photos/login2.jpg"
       class="img"
     /> -->
-  <img class="img" src="../../../assets/photos/photo1.jpg" />
+  <!-- <img class="img" src="../../../assets/photos/photo1.jpg" /> -->
   <div class="loginDiv">
     <div *ngIf="auth.user$ | async; then authenticated; else guest">
       <!-- template will replace this div -->
@@ -13,10 +13,11 @@
 
     <!-- User NOT logged in -->
     <ng-template #guest>
+      <img class="img" src="../../../assets/photos/photo1.jpg" />
       <h1>Pomozite izgubljenim ljubimcima da se vrate svojim vlasnicima</h1>
       <h3>Da biste pristupili sajtu povezite se sa vasim Gmail nalogom.</h3>
 
-      <button mat-stroked-button (click)="auth.googleSignin(); hideLogin()">
+      <button mat-stroked-button (click)="auth.googleSignin()">
         <i class="fa fa-google"></i> Connect Google
       </button>
     </ng-template>

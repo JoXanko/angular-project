@@ -8,7 +8,7 @@ import { MatCarousel, MatCarouselComponent } from 'ng-mat-carousel';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  hide:boolean=true;
+  // hide:boolean=true;
   slides = [
     {
       image:
@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit {
   constructor(public auth: AuthService) {}
 
   ngOnInit(): void {
-    this.hide=true;
+    // this.hide=true;
   }
 
-  hideLogin(){//nece moz ovako zeza posle loggout
-    this.hide=!this.hide;
-  }
+  // hideLogin(){//nece moz ovako zeza posle loggout
+  //   this.hide=!this.hide;
+  // }
 }
 

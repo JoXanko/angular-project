@@ -12,6 +12,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class AuthService {
   user$: Observable<any> /*=of([])*/;
+  show: boolean = true;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -23,18 +24,21 @@ export class AuthService {
   async googleSignin() {
     const provider = new GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    this.router.navigate(['mainPage'])
-    this._snackBar.open('Uspesno ste se prijavili', 'Zatvori',{
-      duration:3000
+    this.router.navigate(['mainPage']);
+    this._snackBar.open('Uspesno ste se prijavili', 'Zatvori', {
+      duration: 3000,
     });
+    this.show = false;
     return provider;
   }
 
   async signOut() {
     await this.afAuth.signOut();
     this.router.navigate(['/']);
-    this._snackBar.open('Uspesno ste se odjavili', 'Zatvori',{
-      duration:3000
+    this._snackBar.open('Uspesno ste se odjavili', 'Zatvori', {
+      duration: 3000,
     });
+    console.log(this.show)
+    this.show = true;
   }
 }
