@@ -6,8 +6,9 @@ import {
   NgForm,
   Validators,
 } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { map, Observable, startWith } from 'rxjs';
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
@@ -27,9 +28,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./lost-pet.component.css'],
 })
 export class LostPetComponent implements OnInit {
-  imageFile:any;
+  
+  imageFile: any;
   breedControl = new FormControl<string | null>(null, Validators.required);
-  nameControl = new FormControl('', [Validators.required]);  
+  nameControl = new FormControl('', [Validators.required]);
   phoneControl = new FormControl('', [Validators.required]);
   isErrorState(
     control: FormControl | null,
@@ -54,6 +56,7 @@ export class LostPetComponent implements OnInit {
   breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
   constructor() {}
   ngOnInit(): void {
+    
     this.filteredOptions = this.breedControl.valueChanges.pipe(
       startWith(''),
       map((value) => {
@@ -110,7 +113,7 @@ export class LostPetComponent implements OnInit {
       };
 
       reader.readAsArrayBuffer(inputNode.files[0]);
-      console.log(this.imageFile)
+      console.log(this.imageFile);
     }
   }
 }

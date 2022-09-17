@@ -12,19 +12,19 @@
     /> -->
 <!-- <img class="img" src="../../../assets/photos/photo1.jpg" /> -->
 
-<div *ngIf="auth.user$ | async; then authenticated; else guest">
+<div *ngIf="user$ | async; then authenticated; else guest">
   <!-- template will replace this div -->
 </div>
 
 <!-- User NOT logged in -->
 <ng-template #guest>
-  <div *ngIf="auth.show" class="wholePage">
+  <div class="wholePage" *ngIf="show">
     <img class="img" src="{{ this.slides[this.imageNum] }}" />
     <div class="loginDiv">
       <h1>Pomozite izgubljenim ljubimcima da se vrate svojim vlasnicima</h1>
       <h3>Da biste pristupili sajtu povezite se sa vasim Gmail nalogom.</h3>
 
-      <button mat-stroked-button (click)="auth.googleSignin()">
+      <button mat-stroked-button (click)="googleLogin()">
         <i class="fa fa-google"></i> Connect Google
       </button>
     </div>

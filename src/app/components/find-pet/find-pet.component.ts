@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import * as actions from '../../store/pet/pet.action';
+import * as fromPet from '../../store/pet/pet.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-find-pet',
@@ -6,8 +10,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./find-pet.component.css'],
 })
 export class FindPetComponent implements OnInit {
+  pets: Observable<any> = of([]);
   public marker: any;
-  constructor() {}
+  constructor(private store: Store<fromPet.State>) {}
   myMarker: any;
   center: google.maps.LatLngLiteral = {
     lat: 43.32472,
@@ -27,7 +32,11 @@ export class FindPetComponent implements OnInit {
       latLng: this.myMarker,
     };
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.pets = this.store.select(fromPet.selectAll);
+    this.store.dispatch(new actions.Query());
+    this.pets.subscribe(res => console.log(res.found));
+  }
   myLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       var pos = {

@@ -16,8 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { HeaderComponent } from './components/header/header.component';
 
@@ -31,10 +30,13 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { LostPetComponent } from './components/lost-pet/lost-pet.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { GoogleMapsModule } from '@angular/google-maps';
 import { FindPetComponent } from './components/find-pet/find-pet.component';
-
+import { UserEffects } from './store/user/user.effects';
+import { PetReducer } from './store/pet/pet.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +69,10 @@ import { FindPetComponent } from './components/find-pet/find-pet.component';
     MatInputModule,
     MatRadioModule,
     MatTooltipModule,
+    StoreModule.forRoot([]),
+    StoreModule.forFeature('pet', PetReducer),
+    EffectsModule.forRoot([UserEffects]), // OVDE TREBA KAO USER....
+    // EffectsModule.forFeature([PetEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
