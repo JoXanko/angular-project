@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,7 +37,10 @@ import { StoreModule } from '@ngrx/store';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { FindPetComponent } from './components/find-pet/find-pet.component';
 import { UserEffects } from './store/user/user.effects';
-import { PetReducer } from './store/pet/pet.reducer';
+// import { PetReducer } from './store/petOLD/pet.reducer';
+import { AppState } from './app.state';
+import { petReducer } from './store/pet/pet.reducer';
+import { PetEffects } from './store/pet/pet.effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,15 +68,21 @@ import { PetReducer } from './store/pet/pet.reducer';
     GoogleMapsModule,
     MatSelectModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatInputModule,
     MatRadioModule,
     MatTooltipModule,
-    StoreModule.forRoot([]),
-    StoreModule.forFeature('pet', PetReducer),
-    EffectsModule.forRoot([UserEffects]), // OVDE TREBA KAO USER....
-    // EffectsModule.forFeature([PetEffects]),
+
+    StoreModule.forRoot<AppState>({ pets: petReducer }),
+    EffectsModule.forRoot([UserEffects, PetEffects]),
+
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+      autoPause: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

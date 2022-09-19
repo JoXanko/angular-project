@@ -1,5 +1,6 @@
 // import { google } from '@agm/core/services/google-maps-types';
-import { Component, OnInit } from '@angular/core';
+import { defaultPet, Pet, Type } from '../../store/pet/pet.model';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -7,7 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, tap } from 'rxjs';
+import { PetService } from 'src/app/services/pet.service';
+import { AppState } from 'src/app/app.state';
+import { Store } from '@ngrx/store';
+import { addPet } from 'src/app/store/pet/pet.action';
+import { nanoid } from 'nanoid';
+import { User } from 'src/app/store/user/user.model';
+import * as userActions from '../../store/user/user.actions';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -22,6 +30,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     );
   }
 }
+interface AppStateUser {
+  user: User;
+}
 @Component({
   selector: 'app-lost-pet',
   templateUrl: './lost-pet.component.html',
@@ -29,7 +40,20 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LostPetComponent implements OnInit {
   
+  owner:string='';
+  user$: Observable<User> = new Observable<User>();
+  @Input() pet: Pet | null = defaultPet;
+  @ViewChild('petType', { static: true }) petType: ElementRef<HTMLInputElement>;
+  @ViewChild('petBred', { static: true }) petBred: ElementRef<HTMLInputElement>;
+  @ViewChild('petName', { static: true }) petName: ElementRef<HTMLInputElement>;
+  @ViewChild('petPhone', { static: true })
+  petPhone: ElementRef<HTMLInputElement>;
+  @ViewChild('petDescription', { static: true })
+  petDescription: ElementRef<HTMLInputElement>;
+  localDate: Date = new Date();
   imageFile: any;
+  lt: any;
+  lg: any;
   breedControl = new FormControl<string | null>(null, Validators.required);
   nameControl = new FormControl('', [Validators.required]);
   phoneControl = new FormControl('', [Validators.required]);
@@ -54,9 +78,28 @@ export class LostPetComponent implements OnInit {
   geocoder = new google.maps.Geocoder();
   address: string = '';
   breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
-  constructor() {}
+  constructor(
+    private storeUser: Store<AppStateUser>,
+    private petService: PetService,
+    private store: Store<AppState>,
+    petType: ElementRef<HTMLInputElement>,
+    petBred: ElementRef<HTMLInputElement>,
+    petDescription: ElementRef<HTMLInputElement>,
+    petPhone: ElementRef<HTMLInputElement>,
+    petName: ElementRef<HTMLInputElement>
+  ) {
+    this.petDescription = petDescription;
+    this.petPhone = petPhone;
+    this.petName = petName;
+    this.petBred = petBred;
+    this.petType = petType;
+  }
   ngOnInit(): void {
-    
+    this.user$ = this.storeUser.select('user');
+    this.store.dispatch(new userActions.GetUser());
+    this.user$.subscribe((user)=>
+    this.owner=user.displayName
+    );
     this.filteredOptions = this.breedControl.valueChanges.pipe(
       startWith(''),
       map((value) => {
@@ -81,8 +124,8 @@ export class LostPetComponent implements OnInit {
   clk(e: any) {
     this.marker = e.latLng;
     //console.log(e.latLng.lat(), e.latLng.lng());
-    var lt = e.latLng.lat();
-    var lg = e.latLng.lng();
+    this.lt = e.latLng.lat();
+    this.lg = e.latLng.lng();
     let request: any = {
       latLng: this.marker,
     };
@@ -115,5 +158,26 @@ export class LostPetComponent implements OnInit {
       reader.readAsArrayBuffer(inputNode.files[0]);
       console.log(this.imageFile);
     }
+  }
+  submit() {
+    var type: Type;
+    if (this.petType.nativeElement.value === '1') type = Type.Dog;
+    else type = Type.Cat;
+
+    this.pet = {
+      id: nanoid(),
+      ownerName: this.owner,
+      name: this.petName.nativeElement.value,
+      description: this.petDescription.nativeElement.value,
+      found: false,
+      phoneNumber: this.petPhone.nativeElement.value,
+      photoUrl: '',
+      type: type,
+      date: this.localDate.toLocaleDateString('sr-RS'),
+      breed: this.petBred.nativeElement.value,
+      lat: this.lt,
+      lng: this.lg,
+    };
+    this.store.dispatch(addPet({ pet: this.pet }));
   }
 }

@@ -1,34 +1,50 @@
 export enum Type {
   Cat,
   Dog,
+  null,
 }
-export class Pet {
+
+export interface Pet {
   id: string;
+  ownerName: string;
   name: string;
   description: string;
   found: boolean;
-  phoneNumber: number;
+  phoneNumber: string;
   photoUrl: string;
   type: Type;
   breed: string;
-
-  constructor(
-    id:string,
-    name: string,
-    phoneNumber: number,
-    description: string,
-    found: boolean,
-    photoUrl: string,
-    type: Type,
-    breed: string
-  ) {
-    this.id=id;
-    this.name = name;
-    this.found = false;
-    this.phoneNumber = phoneNumber;
-    this.description = description;
-    this.photoUrl = photoUrl;
-    this.type = type;
-    this.breed = breed;
-  }
+  date: string;
+  lat: string;
+  lng: string;
 }
+
+export const defaultPet: Pet = {
+  id: '',
+  ownerName: '',
+  name: '',
+  description: '',
+  found: false,
+  phoneNumber: '',
+  photoUrl: '',
+  type: Type.null,
+  breed: '',
+  date: '',
+  lat: '',
+  lng: '',
+};
+
+export const emptyPet: Pet = {
+  id: '',
+  ownerName: '',
+  name: '',
+  description: '',
+  found: false,
+  phoneNumber: '',
+  photoUrl: '',
+  type: Type.null,
+  breed: '',
+  date: '',
+  lat: '',
+  lng: '',
+};

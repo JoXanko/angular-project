@@ -18,7 +18,7 @@
   <div class="inputs">
     <h3>Adresa: {{ address }}</h3>
     <!-- <h3>Izaberite vrstu zivotinje</h3> -->
-    <mat-radio-group aria-label="vrsta zivotinje" class="matRadio">
+    <mat-radio-group aria-label="vrsta zivotinje" #petType class="matRadio">
       <mat-radio-button value="1">Pas</mat-radio-button>
       <mat-radio-button value="2">Macka</mat-radio-button>
     </mat-radio-group>
@@ -37,6 +37,7 @@
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Izaberite rasu</mat-label>
       <input
+        #petBred
         type="text"
         matInput
         [formControl]="breedControl"
@@ -55,6 +56,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Ime ljubimca</mat-label>
       <input
+        #petName
         type="text"
         matInput
         [formControl]="nameControl"
@@ -76,6 +78,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Kontakt telefon</mat-label>
       <input
+        #petPhone
         type="number"
         matInput
         [formControl]="phoneControl"
@@ -84,7 +87,7 @@
       />
       <mat-error
         *ngIf="
-        phoneControl.hasError('number') && !phoneControl.hasError('required')
+          phoneControl.hasError('number') && !phoneControl.hasError('required')
         "
       >
         Unesite broj telefona
@@ -96,11 +99,11 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Dodatne informacije</mat-label>
-      <textarea matInput></textarea>
+      <textarea matInput #petDescription></textarea>
     </mat-form-field>
 
     <button type="button" mat-stroked-button (click)="fileInput.click()">
-      Dodajte sliku      
+      Dodajte sliku
       <mat-icon fontIcon="add_a_photo"></mat-icon>
     </button>
     <input
@@ -113,6 +116,8 @@
     <!-- <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
 <input hidden (change)="onFileSelected()" #fileInput type="file" id="file"> OVAKO TREBA ZA INPUT EVENT DA BUDE-->
 
-    <button mat-stroked-button>Objavi <mat-icon fontIcon="check_circle_outline"></mat-icon></button>
+    <button mat-stroked-button (click)="submit()">
+      Objavi <mat-icon fontIcon="check_circle_outline"></mat-icon>
+    </button>
   </div>
 </div>

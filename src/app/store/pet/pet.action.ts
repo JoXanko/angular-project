@@ -1,41 +1,40 @@
-import { Action } from '@ngrx/store';
-import { Pet } from './../pet/pet.model';
+import { Update } from '@ngrx/entity';
+import { createAction, props } from '@ngrx/store'
+import { Pet } from '../pet/pet.model';
 
-export const QUERY = '[Pet] query pets';
-export const ADDED = '[Pet] added';
-export const MODIFIED = '[Pet] modified';
-export const REMOVED = '[Pet] removed';
-export const UPDATE = '[Pet] update';
-export const SUCCESS = '[Pet] update success';
+// create
+export const addPet = createAction(
+    '[Create Pet] Add Pet',
+    props<{ pet: Pet }>()
+);
+export const addPetSuccess = createAction(
+    '[Create Pet] Add Pet Success',
+    props<{ pet: Pet }>()
+);
 
-export class Query implements Action {
-  readonly type = QUERY;
-  constructor() {}
-}
+// update
+export const updatePet = createAction(
+    '[Create Pet] Update Pet',
+    props<{ pet: Pet }>()
+);
+export const updatePetSuccess = createAction(
+    '[Create Pet] Update Pet Success',
+    props<{ pet: Update<Pet> }>()
+)
 
-export class Added implements Action {
-  readonly type = ADDED;
-  constructor(public payload: Pet) {}
-}
+// delete
+export const deletePet = createAction(
+    '[Home Pet] Delete Pet',
+    props<{ petID: string }>()
+);
+export const deletePetSuccess = createAction(
+    '[Home Pet] Delete Pet Success',
+    props<{ petID: string }>()
+);
 
-export class Modified implements Action {
-  readonly type = MODIFIED;
-  constructor(public payload: Pet) {}
-}
-
-export class Removed implements Action {
-  readonly type = REMOVED;
-  constructor(public payload: Pet) {}
-}
-
-export class Update implements Action {
-  readonly type = UPDATE;
-  constructor(public id: string, public changes: Partial<Pet>) {}
-}
-
-export class Succes implements Action {
-  readonly type = SUCCESS;
-  constructor() {}
-}
-
-export type PetActions = Query | Added | Modified | Removed | Update | Succes;
+// read
+export const loadPets = createAction('[Home Pet] Load Pets');
+export const loadPetsSuccess = createAction(
+    '[Home Pet] Load Pet Success',
+    props<{ pets: Pet[] }>()
+);

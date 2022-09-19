@@ -1,3 +1,12 @@
 .mapClass{
     margin-bottom: 3%;
 }
+.infWindow{
+    display: flex;
+    flex-direction: row;
+    gap:1em
+}
+.img{
+    width:15em;
+    border-radius: 1em;
+}

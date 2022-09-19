@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  api: 'http://localhost:3000',
   firebase: {
     projectId: 'angular-project-rwa',
     appId: '1:577775773036:web:ca465b09d32c96bc983f49',

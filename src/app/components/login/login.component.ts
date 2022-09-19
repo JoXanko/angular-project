@@ -34,20 +34,20 @@ export class LoginComponent implements OnInit {
     this.show=this.userEffects.show;
     this.user$=this.store.select('user');
     this.store.dispatch(new userActions.GetUser())
-    interval(1530)
-      .pipe(
-        tap(() => {
-          this.slides[this.imageNum];
-          let paws = document.getElementById('gif');
-          let randX = (Math.random() * document.body.offsetHeight) | 0;
-          let randY = (Math.random() * document.body.offsetWidth) | 0;
-          if (paws != null) {
-            paws.style.top = randX + 'px';
-            paws.style.left = randY + 'px';
-          }
-        })
-      )
-      .subscribe();
+    // interval(1530)
+    //   .pipe(
+    //     tap(() => {
+    //       this.slides[this.imageNum];
+    //       let paws = document.getElementById('gif');
+    //       let randX = (Math.random() * document.body.offsetHeight) | 0;
+    //       let randY = (Math.random() * document.body.offsetWidth) | 0;
+    //       if (paws != null) {
+    //         paws.style.top = randX + 'px';
+    //         paws.style.left = randY + 'px';
+    //       }
+    //     })
+    //   )
+    //   .subscribe();
   }
   googleLogin(){
     this.store.dispatch(new userActions.GoogleLogin())

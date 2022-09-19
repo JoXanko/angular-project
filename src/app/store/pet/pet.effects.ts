@@ -1,46 +1,82 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { from, map, mergeMap, Observable, switchMap } from 'rxjs';
-import { Action } from '@ngrx/store';
-import { Pet } from './pet.reducer';
-import * as petActions from './pet.action';
-import { AngularFirestore,AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-
+import { Injectable } from "@angular/core";
+import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { Update } from "@ngrx/entity";
+import { Store } from "@ngrx/store";
+import { catchError, map, mergeMap, of, withLatestFrom } from "rxjs";
+import { PetService } from "src/app/services/pet.service";
+import { AppState } from "../../app.state";
+import { Pet } from "../pet/pet.model";
+import * as PetActions from './pet.action';
+import { getPets } from "./pet.selector";
 @Injectable()
 export class PetEffects {
-  public query$/*: Observable<Action> */= createEffect(() => {
-    return this.actions$.pipe(
-      ofType(petActions.QUERY),
-      switchMap((action) => {
-        console.log(action);
-        return this.afs
-          .collection<Pet>('pets', (ref) => {
-            return ref.where('found', '==', 0);
-          })
-          .stateChanges();
-      }),
-      mergeMap((actions) => actions),
-      map((action: any) => {
-        return {
-          type: '[Pet] $(action.type)',
-          payload: {
-            ...action.payload.doc.data(),
-            id: action.payload.doc.id,
-          },
-        };
-      })
+    constructor(
+        private action$: Actions,
+        private petService: PetService,
+        private store: Store<AppState>
+    ) { }
+
+    // read
+    loadPets$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(PetActions.loadPets),
+            withLatestFrom(this.store.select(getPets)),
+            mergeMap(() =>
+                this.petService.getPets().pipe(
+                    map((pets: Pet[]) => PetActions.loadPetsSuccess({ pets:pets })),
+                    catchError(() => of({ type: 'load error' }))
+                )
+            )
+        )
     );
-  });
-  public update$/*: Observable<Action> */= createEffect(() => {
-    return this.actions$.pipe(
-      ofType(petActions.UPDATE),
-      map((action: petActions.Update) => action),
-      switchMap((data) => {
-        const ref = this.afs.doc<Pet>('pets/${data.id}');
-        return from(ref.update(data.changes));
-      }),
-      map(() => new petActions.Succes())
+
+    // create
+    addPet$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(PetActions.addPet),
+            mergeMap((action) =>
+                this.petService.addPet(action.pet).pipe(
+                    map((pet: Pet) => PetActions.addPetSuccess({ pet: pet })),
+                    catchError(() => of({ type: 'create error' }))
+                )
+            )
+        )
     );
-  });
-  constructor(private actions$: Actions, private afs: AngularFirestore) {}
+
+    // update
+    updatePet$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(PetActions.updatePet),
+            mergeMap((action) =>
+                this.petService.updatePet(action.pet).pipe(
+                    map((pet) => {
+
+                        const updatedPet: Update<Pet> = {
+                            id: action.pet.id,
+                            changes: {
+                                ...action.pet
+                            }
+                        };
+
+                        return PetActions.updatePetSuccess({ pet: updatedPet });
+                    }),
+                    catchError(() => of({ type: 'update error' }))
+                )
+            )
+        )
+    );
+
+    // delete
+    deleteEntrie$ = createEffect(() =>
+        this.action$.pipe(
+            ofType(PetActions.deletePet),
+            mergeMap((action) =>
+                this.petService.deletePet(action.petID).pipe(
+                    map((entry) => PetActions.deletePetSuccess({ petID: action.petID })),
+                    catchError(() => of({ type: 'delete error' }))
+                )
+            )
+        )
+    );
+
 }

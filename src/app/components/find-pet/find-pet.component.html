@@ -1,6 +1,7 @@
 <div class="mapClass">
   <google-map
-    (mapClick)="clk($event)"
+    id="map"
+    (mapClick)="mapClk($event)"
     height="500px"
     width="900px"
     [center]="center"
@@ -14,8 +15,29 @@
       [icon]="myMarkerIco"
     >
     </map-marker>
+
+    <map-marker
+      #marker="mapMarker"
+      *ngFor="let pet of pets | async"
+      id="{{ pet.id }}"
+      (mapClick)="openInfoWindow(marker, infoWindow)"
+      [position]="getLtLg(pet)"
+      [options]="petsMarkerOptions"
+      [icon]="petsMarkerIco"
+    >
+      <map-info-window #infoWindow="mapInfoWindow">
+        <div class="infWindow">
+          <img src="../../../assets/photos/goldenRetriver.jpg" class="img" />
+          <div>
+            <h2>Ime ljubimca: {{ pet.name }}</h2>
+            <h2>Telefon: {{ pet.phoneNumber }}</h2>
+            <h2>Izgubljen dana: {{ pet.date }}</h2>
+            <h2>Rasa: {{ pet.breed }}</h2>
+          </div>
+        </div>
+        <h3>{{ pet.description }}</h3>
+      </map-info-window>
+    </map-marker>
   </google-map>
 </div>
-<button mat-stroked-button (click)="myLocation()">
-    Koristi moju lokaciju
-  </button>
+<button mat-stroked-button (click)="myLocation()">Koristi moju lokaciju</button>

@@ -1,47 +1,28 @@
-import * as actions from './pet.action';
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { createFeatureSelector } from '@ngrx/store';
-import { Type } from './pet.model';
+import { createReducer, on } from '@ngrx/store';
+import * as Actions from './pet.action';
+import { petsAdapter, PetsState, initialState } from './pet.state';
 
-export interface Pet {
-  id: string;
-  name: string;
-  description: string;
-  found: boolean;
-  phoneNumber: number;
-  photoUrl: string;
-  type: Type;
-  breed: string;
-}
+export const petReducer = createReducer(
+    initialState,
 
-export const petAdapter = createEntityAdapter<Pet>();
-export interface State extends EntityState<Pet> {}
-export const initialState: State = petAdapter.getInitialState();
+    // create
+    on(Actions.addPetSuccess, (currentState: PetsState, action) => {
+        return petsAdapter.addOne(action.pet, currentState);
+    }),
 
-export function PetReducer(
-  state: State = initialState,
-  action: actions.PetActions
-) {
-    switch (action.type){
-        case actions.ADDED:
-            return petAdapter.addOne(action.payload,state)
-        case  actions.MODIFIED:
-            return petAdapter.updateOne({
-                id:action.payload.id,
-                changes:action.payload
-            },state)
-        case actions.REMOVED:
-            return petAdapter.removeOne(action.payload.id,state)
-        default:
-            return state;
-    }
-}
+    // delete
+    on(Actions.deletePetSuccess, (currentState: PetsState, action) => {
+        return petsAdapter.removeOne(action.petID, currentState);
+    }),
 
-export const getPetState=createFeatureSelector<State>('pet');
+    // read
+    on(Actions.loadPetsSuccess, (currentState: PetsState, action) => {
+        return petsAdapter.setAll(action.pets, currentState);
+    }),
 
-export const {
-    selectIds,
-    selectEntities,
-    selectAll,
-    selectTotal,
-}= petAdapter.getSelectors(getPetState);
+    // update
+    on(Actions.updatePetSuccess, (currentState: PetsState, action) => {
+        return petsAdapter.updateOne(action.pet, currentState);
+    })
+
+);
