@@ -41,6 +41,8 @@ import { UserEffects } from './store/user/user.effects';
 import { AppState } from './app.state';
 import { petReducer } from './store/pet/pet.reducer';
 import { PetEffects } from './store/pet/pet.effects';
+import { breedReducer } from './store/breed/breed.reducer';
+import { BreedEffects } from './store/breed/breed.effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,8 +77,8 @@ import { PetEffects } from './store/pet/pet.effects';
     MatRadioModule,
     MatTooltipModule,
 
-    StoreModule.forRoot<AppState>({ pets: petReducer }),
-    EffectsModule.forRoot([UserEffects, PetEffects]),
+    StoreModule.forRoot<AppState>({ pets: petReducer ,breeds:breedReducer}),
+    EffectsModule.forRoot([UserEffects, PetEffects,BreedEffects]),
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,

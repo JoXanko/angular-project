@@ -40,12 +40,31 @@
         #petBred
         type="text"
         matInput
-        [formControl]="breedControl"
+        [formControl]="dogBreedControl"
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option
-          *ngFor="let option of filteredOptions | async"
+          *ngFor="let option of filteredDogOptions | async"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Izaberite rasu</mat-label>
+      <input
+        #petBred
+        type="text"
+        matInput
+        [formControl]="catBreedControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option
+          *ngFor="let option of filteredCatOptions | async"
           [value]="option"
         >
           {{ option }}

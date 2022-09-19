@@ -67,5 +67,47 @@
       "lat": 43.32186721308837,
       "lng": 21.910196455078136
     }
+  ],
+  "breeds": [
+    {
+      "id": "1",
+      "type": "dog",
+      "name": "Haski"
+    },
+    {
+      "id": "2",
+      "type": "dog",
+      "name": "Zlatni retriver"
+    },
+    {
+      "id": "3",
+      "type": "dog",
+      "name": "Nemacki ovcar"
+    },
+    {
+      "id": "4",
+      "type": "dog",
+      "name": "Rotvajler"
+    },
+    {
+      "id": "5",
+      "type": "cat",
+      "name": "Ruska plava macka"
+    },
+    {
+      "id": "6",
+      "type": "cat",
+      "name": "Sijamska"
+    },
+    {
+      "id": "7",
+      "type": "cat",
+      "name": "Persijska"
+    },
+    {
+      "id": "8",
+      "type": "cat",
+      "name": "Sfinga"
+    }
   ]
 }
