@@ -13,15 +13,22 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { UsersQuery } from './user.reducer';
+import { Store } from '@ngrx/store';
 export type Action = userActions.All;
+interface AppState {
+  user: User;
+}
 @Injectable()
 export class UserEffects {
-  show:boolean=true
+  user$ = this.store.select(UsersQuery.getUser);
+  show: boolean = true;
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   matpopupDuration: number = 3000;
 
   constructor(
+    private store: Store<AppState>,
     private action: Actions,
     private afAuth: AngularFireAuth,
     private router: Router,
@@ -57,7 +64,7 @@ export class UserEffects {
           duration: this.matpopupDuration,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
-          panelClass: ['green-snackbar']
+          panelClass: ['green-snackbar'],
         });
       }),
       map((credential) => {
@@ -95,9 +102,23 @@ export class UserEffects {
       })
     );
   });
-
-  protected googleLogin(): Promise<any> {    
+  login(): Observable<User> {
     this.show = false;
+    this.store.dispatch(new userActions.GoogleLogin());
+    // console.log(this.user$)
+    return this.user$;
+  }
+
+  /**
+   *
+   */
+  logout(): Observable<User> {
+    this.show = true;
+    this.store.dispatch(new userActions.Logout());
+    return this.user$;
+  }
+  protected googleLogin(): Promise<any> {
+    // this.show = false;
     const provider = new GoogleAuthProvider();
     return this.afAuth.signInWithPopup(provider);
   }

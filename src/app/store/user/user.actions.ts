@@ -49,7 +49,7 @@ export class Logout implements Action {
 }
 
 export type All =
-  | GetUser
+   GetUser
   | Authenticated
   | NotAuthenticated
   | GoogleLogin

@@ -18,7 +18,7 @@
 
     <map-marker
       #marker="mapMarker"
-      *ngFor="let pet of pets | async"
+      *ngFor="let pet of notFoundPets | async"
       id="{{ pet.id }}"
       (mapClick)="openInfoWindow(marker, infoWindow)"
       [position]="getLtLg(pet)"
@@ -29,13 +29,19 @@
         <div class="infWindow">
           <img src="../../../assets/photos/goldenRetriver.jpg" class="img" />
           <div>
-            <h2>Ime ljubimca: {{ pet.name }}</h2>
+            <h1>
+              Zdravo, ovo na slici sam ja. Odazivam se na ime <strong>{{ pet.name }}</strong> i
+              izgubio sam se dana <strong>{{ pet.date }} </strong>na ovoj lokaciji. Rase sam
+              <strong>{{ pet.breed }}</strong> i ako me vidis obavesti mog vlasnika na broj
+              <strong>{{ pet.phoneNumber }}</strong>
+            </h1>
+            <!-- <h2>Ime ljubimca: {{ pet.name }}</h2>
             <h2>Telefon: {{ pet.phoneNumber }}</h2>
             <h2>Izgubljen dana: {{ pet.date }}</h2>
-            <h2>Rasa: {{ pet.breed }}</h2>
+            <h2>Rasa: {{ pet.breed }}</h2> -->
           </div>
         </div>
-        <h3>{{ pet.description }}</h3>
+        <h3>Opis nestanka: {{ pet.description }}</h3>
       </map-info-window>
     </map-marker>
   </google-map>

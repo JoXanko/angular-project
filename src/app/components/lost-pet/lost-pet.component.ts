@@ -19,6 +19,7 @@ import * as userActions from '../../store/user/user.actions';
 import { Breed } from 'src/app/store/breed/breed.model';
 import { loadBreeds } from 'src/app/store/breed/breed.action';
 import { getBreeds } from 'src/app/store/breed/breed.selector';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -33,20 +34,19 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     );
   }
 }
-interface AppStateUser {
-  user: User;
-}
+
 @Component({
   selector: 'app-lost-pet',
   templateUrl: './lost-pet.component.html',
   styleUrls: ['./lost-pet.component.css'],
 })
 export class LostPetComponent implements OnInit {
+  showDogOptions=false;
+  showCatOptions=false;
   breedTypeInput="dog";
   catBreeds: string[] = [];
   dogBreeds: string[] = [];
   owner: string = '';
-  user$: Observable<User> = new Observable<User>();
   breeds: Observable<Breed[]> = of([]);
   @Input() pet: Pet | null = defaultPet;
   @ViewChild('petType', { static: true }) petType: ElementRef<HTMLInputElement>;
@@ -87,7 +87,6 @@ export class LostPetComponent implements OnInit {
   address: string = '';
   // breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
   constructor(
-    private storeUser: Store<AppStateUser>,
     private petService: PetService,
     private store: Store<AppState>,
     petType: ElementRef<HTMLInputElement>,
@@ -102,11 +101,11 @@ export class LostPetComponent implements OnInit {
     this.petBred = petBred;
     this.petType = petType;
   }
+  userData: any
   ngOnInit(): void {
-    this.user$ = this.storeUser.select('user');
-    this.storeUser.dispatch(new userActions.GetUser());
-    this.user$.subscribe((user) => (this.owner = user.displayName));
 
+    this.dogBreeds=[]
+    this.catBreeds=[]//NE RADI OVAKO
     this.store.dispatch(loadBreeds());
     this.breeds = this.store.select(getBreeds);
     this.breeds.subscribe((res) => console.log(res));
@@ -120,20 +119,7 @@ export class LostPetComponent implements OnInit {
     console.log(this.dogBreeds);
     console.log(this.catBreeds);
 
-    this.filteredDogOptions = this.dogBreedControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = value;
-        return name ? this._filter(name as string,"dog") : this.dogBreeds.slice();
-      })
-    );
-    this.filteredCatOptions = this.catBreedControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = value;
-        return name ? this._filter(name as string,"cat") : this.catBreeds.slice();
-      })
-    );
+    
   }
   value = '';
   marker: any;
@@ -210,5 +196,30 @@ export class LostPetComponent implements OnInit {
       lng: this.lg,
     };
     this.store.dispatch(addPet({ pet: this.pet }));
+  }
+  radButValChange(e:any){
+    if(e.value==1){
+      this.showDogOptions=true;
+      this.showCatOptions=false;
+      this.filteredDogOptions = this.dogBreedControl.valueChanges.pipe(
+        startWith(''),
+        map((value) => {
+          const name = value;
+          return name ? this._filter(name as string,"dog") : this.dogBreeds.slice();
+        })
+      );
+
+    }
+    else{
+      this.showDogOptions=false;
+      this.showCatOptions=true;
+      this.filteredCatOptions = this.catBreedControl.valueChanges.pipe(
+        startWith(''),
+        map((value) => {
+          const name = value;
+          return name ? this._filter(name as string,"cat") : this.catBreeds.slice();
+        })
+      );
+    }
   }
 }

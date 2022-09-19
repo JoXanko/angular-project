@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 // import * as actions from '../../store/petOLD/pet.action';
 // import * as fromPet from '../../store/petOLD/pet.reducer';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 export class FindPetComponent implements OnInit {
   // @ViewChild('map', { static: true }) map: ElementRef<HTMLInputElement>;
   pets: Observable<Pet[]> = of([]);
+  notFoundPets: Observable<Pet[]> = of([]);
   public marker: any;
   constructor(
     private store: Store<AppState> // map: ElementRef<HTMLInputElement>
@@ -47,26 +48,13 @@ export class FindPetComponent implements OnInit {
   public openInfoWindow(marker: MapMarker, infoWindow: MapInfoWindow) {
     infoWindow.open(marker);
 }
-  // markerClk(e: Pet) {
-  //   var infowindow = new google.maps.InfoWindow({
-  //     content: 'Bla bla bla l',
-  //   });
-  //   var mapElem = document.getElementById('map');
-  //   var map;
-  //   console.log(e.id);
-  //   var markerElem = document.getElementById(e.id);
-  //   var marker;
-  //   if (mapElem && markerElem) {
-  //     map = new google.maps.Map(mapElem);
-  //     marker = new google.maps.Marker(markerElem);
-
-  //     infowindow.open(map, marker);
-  //   }
-  // }
+ 
   ngOnInit(): void {
     this.store.dispatch(loadPets());
     this.pets = this.store.select(getPets);
-    this.pets.subscribe((res) => console.log(res));
+    this.pets.pipe(map(projects => projects.filter(proj => proj.found === false)))
+    this.notFoundPets=this.pets.pipe(map(projects => projects.filter(proj => proj.found === false)));
+    this.notFoundPets.subscribe((res) => console.log(res));
   }
   myLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
