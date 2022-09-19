@@ -14,12 +14,11 @@ import { AppState } from 'src/app/app.state';
 import { Store } from '@ngrx/store';
 import { addPet } from 'src/app/store/pet/pet.action';
 import { nanoid } from 'nanoid';
-import { User } from 'src/app/store/user/user.model';
-import * as userActions from '../../store/user/user.actions';
 import { Breed } from 'src/app/store/breed/breed.model';
 import { loadBreeds } from 'src/app/store/breed/breed.action';
 import { getBreeds } from 'src/app/store/breed/breed.selector';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AuthService } from 'src/app/services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -41,16 +40,19 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./lost-pet.component.css'],
 })
 export class LostPetComponent implements OnInit {
-  showDogOptions=false;
-  showCatOptions=false;
-  breedTypeInput="dog";
+  typeOfAnima: any;
+  showDogOptions = false;
+  showCatOptions = false;
+  breedTypeInput = 'dog';
   catBreeds: string[] = [];
   dogBreeds: string[] = [];
-  owner: string = '';
+  ownerN: string = '';
+  ownerID: string = '';
   breeds: Observable<Breed[]> = of([]);
   @Input() pet: Pet | null = defaultPet;
   @ViewChild('petType', { static: true }) petType: ElementRef<HTMLInputElement>;
-  @ViewChild('petBred', { static: true }) petBred: ElementRef<HTMLInputElement>;
+  @ViewChild('petBreed', { static: true })
+  petBreed: ElementRef<HTMLInputElement>;
   @ViewChild('petName', { static: true }) petName: ElementRef<HTMLInputElement>;
   @ViewChild('petPhone', { static: true })
   petPhone: ElementRef<HTMLInputElement>;
@@ -60,8 +62,8 @@ export class LostPetComponent implements OnInit {
   imageFile: any;
   lt: any;
   lg: any;
-  dogBreedControl = new FormControl<string | null>(null, Validators.required);
-  catBreedControl = new FormControl<string | null>(null, Validators.required);
+  BreedControl = new FormControl<string | null>(null, Validators.required);
+  // catBreedControl = new FormControl<string | null>(null, Validators.required);
   nameControl = new FormControl('', [Validators.required]);
   phoneControl = new FormControl('', [Validators.required]);
   isErrorState(
@@ -81,16 +83,17 @@ export class LostPetComponent implements OnInit {
   };
 
   matcher = new MyErrorStateMatcher();
-  filteredDogOptions: Observable<string[]> | undefined;
-  filteredCatOptions: Observable<string[]> | undefined;
+  filteredOptions: Observable<string[]> | undefined;
+  // filteredCatOptions: Observable<string[]> | undefined;
   geocoder = new google.maps.Geocoder();
   address: string = '';
   // breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
   constructor(
+    public auth: AuthService,
     private petService: PetService,
     private store: Store<AppState>,
     petType: ElementRef<HTMLInputElement>,
-    petBred: ElementRef<HTMLInputElement>,
+    petBreed: ElementRef<HTMLInputElement>,
     petDescription: ElementRef<HTMLInputElement>,
     petPhone: ElementRef<HTMLInputElement>,
     petName: ElementRef<HTMLInputElement>
@@ -98,14 +101,17 @@ export class LostPetComponent implements OnInit {
     this.petDescription = petDescription;
     this.petPhone = petPhone;
     this.petName = petName;
-    this.petBred = petBred;
+    this.petBreed = petBreed;
     this.petType = petType;
   }
-  userData: any
+  userData: any;
   ngOnInit(): void {
-
-    this.dogBreeds=[]
-    this.catBreeds=[]//NE RADI OVAKO
+    this.auth.user$.subscribe((e) => {
+      this.ownerID = e.uid;
+      this.ownerN = e.displayName;
+    });
+    this.dogBreeds = [];
+    this.catBreeds = []; //NE RADI OVAKO
     this.store.dispatch(loadBreeds());
     this.breeds = this.store.select(getBreeds);
     this.breeds.subscribe((res) => console.log(res));
@@ -118,8 +124,6 @@ export class LostPetComponent implements OnInit {
     });
     console.log(this.dogBreeds);
     console.log(this.catBreeds);
-
-    
   }
   value = '';
   marker: any;
@@ -157,10 +161,10 @@ export class LostPetComponent implements OnInit {
       return this.dogBreeds.filter((option) =>
         option.toLowerCase().includes(filterValue)
       );
-      else
+    else
       return this.catBreeds.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
+        option.toLowerCase().includes(filterValue)
+      );
   }
   onFileSelected() {
     const inputNode: any = document.querySelector('#file');
@@ -183,7 +187,8 @@ export class LostPetComponent implements OnInit {
 
     this.pet = {
       id: nanoid(),
-      ownerName: this.owner,
+      ownerName: this.ownerN,
+      ownerId: this.ownerID,
       name: this.petName.nativeElement.value,
       description: this.petDescription.nativeElement.value,
       found: false,
@@ -191,33 +196,36 @@ export class LostPetComponent implements OnInit {
       photoUrl: '',
       type: type,
       date: this.localDate.toLocaleDateString('sr-RS'),
-      breed: this.petBred.nativeElement.value,
+      breed: this.petBreed.nativeElement.value,
       lat: this.lt,
       lng: this.lg,
     };
     this.store.dispatch(addPet({ pet: this.pet }));
   }
-  radButValChange(e:any){
-    if(e.value==1){
-      this.showDogOptions=true;
-      this.showCatOptions=false;
-      this.filteredDogOptions = this.dogBreedControl.valueChanges.pipe(
+  radButValChange(e: any) {
+    this.typeOfAnima = e.value;
+    if (e.value == 1) {
+      // this.showDogOptions = true;
+      // this.showCatOptions = false;
+      this.filteredOptions = this.BreedControl.valueChanges.pipe(
         startWith(''),
         map((value) => {
           const name = value;
-          return name ? this._filter(name as string,"dog") : this.dogBreeds.slice();
+          return name
+            ? this._filter(name as string, 'dog')
+            : this.dogBreeds.slice();
         })
       );
-
-    }
-    else{
-      this.showDogOptions=false;
-      this.showCatOptions=true;
-      this.filteredCatOptions = this.catBreedControl.valueChanges.pipe(
+    } else {
+      // this.showDogOptions = false;
+      // this.showCatOptions = true;
+      this.filteredOptions = this.BreedControl.valueChanges.pipe(
         startWith(''),
         map((value) => {
           const name = value;
-          return name ? this._filter(name as string,"cat") : this.catBreeds.slice();
+          return name
+            ? this._filter(name as string, 'cat')
+            : this.catBreeds.slice();
         })
       );
     }

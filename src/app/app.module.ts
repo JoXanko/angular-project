@@ -36,7 +36,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { GoogleMapsModule } from '@angular/google-maps';
 import { FindPetComponent } from './components/find-pet/find-pet.component';
-import { UserEffects } from './store/user/user.effects';
+// import { UserEffects } from './store/user/user.effects';
 // import { PetReducer } from './store/petOLD/pet.reducer';
 import { AppState } from './app.state';
 import { petReducer } from './store/pet/pet.reducer';
@@ -78,7 +78,7 @@ import { BreedEffects } from './store/breed/breed.effects';
     MatTooltipModule,
 
     StoreModule.forRoot<AppState>({ pets: petReducer ,breeds:breedReducer}),
-    EffectsModule.forRoot([UserEffects, PetEffects,BreedEffects]),
+    EffectsModule.forRoot([ PetEffects,BreedEffects]),
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,

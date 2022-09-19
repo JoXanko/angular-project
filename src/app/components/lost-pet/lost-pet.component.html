@@ -34,29 +34,29 @@
   <mat-error *ngIf="breedControl.hasError('required')">Morate izabrati rasu</mat-error>
 </mat-form-field> -->
 
-    <mat-form-field class="example-full-width" appearance="fill" *ngIf="showDogOptions">
+    <mat-form-field class="example-full-width" appearance="fill" >
       <mat-label>Izaberite rasu</mat-label>
       <input
-        #petBred
+        #petBreed
         type="text"
         matInput
-        [formControl]="dogBreedControl"
+        [formControl]="BreedControl"
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option
-          *ngFor="let option of filteredDogOptions | async"
+          *ngFor="let option of filteredOptions | async"
           [value]="option"
         >
           {{ option }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-
-    <mat-form-field class="example-full-width" appearance="fill" *ngIf="showCatOptions">
+<!-- 
+    <mat-form-field class="example-full-width" appearance="fill" >
       <mat-label>Izaberite rasu</mat-label>
       <input
-        #petBred
+        #petCatBreed
         type="text"
         matInput
         [formControl]="catBreedControl"
@@ -70,7 +70,7 @@
           {{ option }}
         </mat-option>
       </mat-autocomplete>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <mat-form-field appearance="fill">
       <mat-label>Ime ljubimca</mat-label>

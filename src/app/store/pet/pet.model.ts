@@ -7,14 +7,15 @@ export enum Type {
 export interface Pet {
   id: string;
   ownerName: string;
+  ownerId: string;
   name: string;
   description: string;
   found: boolean;
   phoneNumber: string;
   photoUrl: string;
   type: Type;
-  breed: string;
   date: string;
+  breed: string;
   lat: string;
   lng: string;
 }
@@ -22,14 +23,15 @@ export interface Pet {
 export const defaultPet: Pet = {
   id: '',
   ownerName: '',
+  ownerId:'',
   name: '',
   description: '',
   found: false,
   phoneNumber: '',
   photoUrl: '',
   type: Type.null,
-  breed: '',
   date: '',
+  breed: '',
   lat: '',
   lng: '',
 };
@@ -37,14 +39,15 @@ export const defaultPet: Pet = {
 export const emptyPet: Pet = {
   id: '',
   ownerName: '',
+  ownerId:'',
   name: '',
   description: '',
   found: false,
   phoneNumber: '',
   photoUrl: '',
   type: Type.null,
-  breed: '',
   date: '',
+  breed: '',
   lat: '',
   lng: '',
 };
