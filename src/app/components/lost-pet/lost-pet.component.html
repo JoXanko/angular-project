@@ -18,7 +18,12 @@
   <div class="inputs">
     <h3>Adresa: {{ address }}</h3>
     <!-- <h3>Izaberite vrstu zivotinje</h3> -->
-    <mat-radio-group aria-label="vrsta zivotinje" #petType class="matRadio" (change)="radButValChange($event)">
+    <mat-radio-group
+      aria-label="vrsta zivotinje"
+      #petType
+      class="matRadio"
+      (change)="radButValChange($event)"
+    >
       <mat-radio-button value="1">Pas</mat-radio-button>
       <mat-radio-button value="2">Macka</mat-radio-button>
     </mat-radio-group>
@@ -34,7 +39,7 @@
   <mat-error *ngIf="breedControl.hasError('required')">Morate izabrati rasu</mat-error>
 </mat-form-field> -->
 
-    <mat-form-field class="example-full-width" appearance="fill" >
+    <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Izaberite rasu</mat-label>
       <input
         #petBreed
@@ -52,7 +57,7 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-<!-- 
+    <!-- 
     <mat-form-field class="example-full-width" appearance="fill" >
       <mat-label>Izaberite rasu</mat-label>
       <input
@@ -126,8 +131,8 @@
       <mat-icon fontIcon="add_a_photo"></mat-icon>
     </button>
     <input
+      (change)="selectFile($event)"
       hidden
-      (change)="onFileSelected()"
       #fileInput
       type="file"
       id="file"
@@ -135,7 +140,7 @@
     <!-- <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
 <input hidden (change)="onFileSelected()" #fileInput type="file" id="file"> OVAKO TREBA ZA INPUT EVENT DA BUDE-->
 
-    <button mat-stroked-button (click)="submit()">
+    <button mat-stroked-button (click)="submit(); upload()">
       Objavi <mat-icon fontIcon="check_circle_outline"></mat-icon>
     </button>
   </div>

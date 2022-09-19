@@ -11,6 +11,9 @@ import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginComponent } from './components/login/login.component';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+
 // import { MainPageComponent } from './components/main-page/main-page.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -76,9 +79,11 @@ import { BreedEffects } from './store/breed/breed.effects';
     MatInputModule,
     MatRadioModule,
     MatTooltipModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
 
-    StoreModule.forRoot<AppState>({ pets: petReducer ,breeds:breedReducer}),
-    EffectsModule.forRoot([ PetEffects,BreedEffects]),
+    StoreModule.forRoot<AppState>({ pets: petReducer, breeds: breedReducer }),
+    EffectsModule.forRoot([PetEffects, BreedEffects]),
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,

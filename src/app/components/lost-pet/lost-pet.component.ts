@@ -19,6 +19,8 @@ import { loadBreeds } from 'src/app/store/breed/breed.action';
 import { getBreeds } from 'src/app/store/breed/breed.selector';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/services/auth.service';
+import { FileUpload } from 'src/app/models/fileUpload';
+import { FileUploadService } from 'src/app/services/fileUpload.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -40,6 +42,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./lost-pet.component.css'],
 })
 export class LostPetComponent implements OnInit {
+  imgURL = nanoid();
+  selectedFiles?: FileList;
+  currentFileUpload?: FileUpload;
+  percentage = 0;
   typeOfAnima: any;
   showDogOptions = false;
   showCatOptions = false;
@@ -89,6 +95,7 @@ export class LostPetComponent implements OnInit {
   address: string = '';
   // breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
   constructor(
+    private uploadService: FileUploadService,
     public auth: AuthService,
     private petService: PetService,
     private store: Store<AppState>,
@@ -166,20 +173,20 @@ export class LostPetComponent implements OnInit {
         option.toLowerCase().includes(filterValue)
       );
   }
-  onFileSelected() {
-    const inputNode: any = document.querySelector('#file');
+  // onFileSelected() {
+  //   const inputNode: any = document.querySelector('#file');
 
-    if (typeof FileReader !== 'undefined') {
-      const reader = new FileReader();
+  //   if (typeof FileReader !== 'undefined') {
+  //     const reader = new FileReader();
 
-      reader.onload = (e: any) => {
-        this.imageFile = e.target.result;
-      };
+  //     reader.onload = (e: any) => {
+  //       this.imageFile = e.target.result;
+  //     };
 
-      reader.readAsArrayBuffer(inputNode.files[0]);
-      console.log(this.imageFile);
-    }
-  }
+  //     reader.readAsArrayBuffer(inputNode.files[0]);
+  //     console.log(this.imageFile);
+  //   }
+  // }
   submit() {
     var type: Type;
     if (this.petType.nativeElement.value === '1') type = Type.Dog;
@@ -193,7 +200,7 @@ export class LostPetComponent implements OnInit {
       description: this.petDescription.nativeElement.value,
       found: false,
       phoneNumber: this.petPhone.nativeElement.value,
-      photoUrl: '',
+      photoUrl: this.imgURL,
       type: type,
       date: this.localDate.toLocaleDateString('sr-RS'),
       breed: this.petBreed.nativeElement.value,
@@ -228,6 +235,37 @@ export class LostPetComponent implements OnInit {
             : this.catBreeds.slice();
         })
       );
+    }
+  }
+  selectFile(event: any): void {
+    this.selectedFiles = event.target.files;
+    var file;
+    if (this.selectedFiles != null) file = this.selectedFiles.item(0);
+    if (this.selectedFiles != null && file) {
+      var newFileName = 'Jovan';
+      var formData = new FormData();
+      formData.append(newFileName, file);
+
+      console.log(formData);
+    }
+  }
+  upload(): void {
+    if (this.selectedFiles) {
+      const file: File | null = this.selectedFiles.item(0);
+      this.selectedFiles = undefined;
+
+      if (file) {
+        this.currentFileUpload = new FileUpload(file);
+        this.currentFileUpload.key=this.imgURL;
+        this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(
+          (percentage) => {
+            this.percentage = Math.round(percentage ? percentage : 0);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     }
   }
 }
