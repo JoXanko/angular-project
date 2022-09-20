@@ -13,7 +13,11 @@ import { LoginComponent } from '../login/login.component';
 export class HeaderComponent implements OnInit {
   constructor(
     public auth: AuthService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {}
+  myPetsPage(){
+    this.router.navigate(['myPets'])
+  }
 }

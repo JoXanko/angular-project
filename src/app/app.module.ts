@@ -46,6 +46,7 @@ import { petReducer } from './store/pet/pet.reducer';
 import { PetEffects } from './store/pet/pet.effects';
 import { breedReducer } from './store/breed/breed.reducer';
 import { BreedEffects } from './store/breed/breed.effects';
+import { MyPetsComponent } from './components/my-pets/my-pets.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { BreedEffects } from './store/breed/breed.effects';
     routingComponents,
     LostPetComponent,
     FindPetComponent,
+    MyPetsComponent,
   ],
   imports: [
     MatCarouselModule.forRoot(),

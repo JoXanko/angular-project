@@ -16,9 +16,11 @@ import { FileUploadService } from 'src/app/services/fileUpload.service';
   styleUrls: ['./find-pet.component.css'],
 })
 export class FindPetComponent implements OnInit {
+  mapCenterLat: number = 43.32472;
+  mapCenterLng: number = 21.90333;
   fileUploads?: any[];
-
-  // @ViewChild('map', { static: true }) map: ElementRef<HTMLInputElement>;
+  petsArray: Pet[] = [];
+  imagesArray: string[] = [];
   pets: Observable<Pet[]> = of([]);
   notFoundPets: Observable<Pet[]> = of([]);
   public marker: any;
@@ -28,8 +30,8 @@ export class FindPetComponent implements OnInit {
   ) {}
   myMarker: any;
   center: google.maps.LatLngLiteral = {
-    lat: 43.32472,
-    lng: 21.90333,
+    lat: this.mapCenterLat,
+    lng: this.mapCenterLng,
   };
   mapOptions: google.maps.MapOptions = {
     streetViewControl: false,
@@ -41,15 +43,17 @@ export class FindPetComponent implements OnInit {
     animation: google.maps.Animation.DROP,
   };
   mapClk(e: any) {
-    this.myMarker = e.latLng;
+    // this.myMarker = e.latLng;
     var lt = e.latLng.lat();
     var lg = e.latLng.lng();
-    let request: any = {
-      latLng: this.myMarker,
+    var pos = {
+      lat: lt,
+      lng: lg,
     };
-    this.fileUploads?.forEach((elem) => {
-      console.log(elem);
-    });
+    this.myMarker = pos;
+    // let request: any = {
+    //   latLng: this.myMarker,
+    // };
   }
 
   public openInfoWindow(marker: MapMarker, infoWindow: MapInfoWindow) {
@@ -68,8 +72,26 @@ export class FindPetComponent implements OnInit {
       )
       .subscribe((fileUploads) => {
         this.fileUploads = fileUploads;
-      });
+        var haveImage: boolean = false;
+        var imageURL: string = '';
+        this.notFoundPets.subscribe((pets) =>
+          pets.forEach((pet) => {
+            // console.log(pet);
+            fileUploads.forEach((photo) => {
+              // console.log(photo.key);
+              if (pet.photoUrl == photo.key && photo.url) {
+                imageURL = photo.url;
+                haveImage = true;
+              }
+            });
+            if (haveImage == true) this.imagesArray.push(imageURL);
+            else this.imagesArray.push('');
 
+            haveImage = false;
+          })
+        );
+      });
+    console.log(this.imagesArray);
 
     this.store.dispatch(loadPets());
     this.pets = this.store.select(getPets);
@@ -79,7 +101,6 @@ export class FindPetComponent implements OnInit {
     this.notFoundPets = this.pets.pipe(
       map((projects) => projects.filter((proj) => proj.found === false))
     );
-    this.notFoundPets.subscribe((res) => console.log(res));
   }
   myLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -100,5 +121,36 @@ export class FindPetComponent implements OnInit {
   };
   getLtLg(pet: Pet): google.maps.LatLngLiteral {
     return { lat: Number(pet.lat), lng: Number(pet.lng) };
+  }
+
+  getDistanceFromLatLonInKm(pos1: any, pos2: any) {
+    if (pos1 != null) {
+      var lat1 = this.myMarker.lat;
+      var lon1 = this.myMarker.lng;
+      var lat2 = pos2.lat;
+      var lon2 = pos2.lng;
+      var R = 6371; // Radius of the earth in km
+      var dLat = this.deg2rad(lat2 - lat1); // deg2rad below
+      var dLon = this.deg2rad(lon2 - lon1);
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.deg2rad(lat1)) *
+          Math.cos(this.deg2rad(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c; // Distance in km
+      if (d < 1) {
+        return (
+          'Udaljenost od vase lokacije: ' + (d * 1000).toFixed(0) + ' metara'
+        );
+      }
+      return 'Udaljenost od vase lokacije: ' + d.toFixed(2) + ' kilometara';
+    }
+    return 'Postavite vasu trenutnu lokaciju na mapi kako biste videli koliko su izgubljeni ljubimci udaljeni od vas';
+  }
+
+  deg2rad(deg: any) {
+    return deg * (Math.PI / 180);
   }
 }

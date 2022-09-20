@@ -42,7 +42,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./lost-pet.component.css'],
 })
 export class LostPetComponent implements OnInit {
-  imgURL = nanoid();
+  imgURL: string = '';
+  mapCenterLat: number = 43.32472;
+  mapCenterLng: number = 21.90333;
   selectedFiles?: FileList;
   currentFileUpload?: FileUpload;
   percentage = 0;
@@ -139,8 +141,8 @@ export class LostPetComponent implements OnInit {
     streetViewControl: false,
   };
   center: google.maps.LatLngLiteral = {
-    lat: 43.32472,
-    lng: 21.90333,
+    lat: this.mapCenterLat,
+    lng: this.mapCenterLng,
   };
   markerOptions: google.maps.MarkerOptions = {
     animation: google.maps.Animation.BOUNCE,
@@ -173,25 +175,12 @@ export class LostPetComponent implements OnInit {
         option.toLowerCase().includes(filterValue)
       );
   }
-  // onFileSelected() {
-  //   const inputNode: any = document.querySelector('#file');
-
-  //   if (typeof FileReader !== 'undefined') {
-  //     const reader = new FileReader();
-
-  //     reader.onload = (e: any) => {
-  //       this.imageFile = e.target.result;
-  //     };
-
-  //     reader.readAsArrayBuffer(inputNode.files[0]);
-  //     console.log(this.imageFile);
-  //   }
-  // }
   submit() {
     var type: Type;
     if (this.petType.nativeElement.value === '1') type = Type.Dog;
     else type = Type.Cat;
 
+    this.imgURL = nanoid();
     this.pet = {
       id: nanoid(),
       ownerName: this.ownerN,
@@ -208,6 +197,7 @@ export class LostPetComponent implements OnInit {
       lng: this.lg,
     };
     this.store.dispatch(addPet({ pet: this.pet }));
+    this.upload();
   }
   radButValChange(e: any) {
     this.typeOfAnima = e.value;
@@ -256,7 +246,7 @@ export class LostPetComponent implements OnInit {
 
       if (file) {
         this.currentFileUpload = new FileUpload(file);
-        this.currentFileUpload.key=this.imgURL;
+        this.currentFileUpload.key = this.imgURL;
         this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(
           (percentage) => {
             this.percentage = Math.round(percentage ? percentage : 0);
