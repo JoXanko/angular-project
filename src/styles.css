@@ -2,6 +2,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 html,
 body {
+  background-color: #fff8e2;
   height: 100%;
 }
 body {
@@ -9,7 +10,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .green-snackbar {
-  background: #46d352;
+  background: #6bcf74;
   color: white;
 
 }
@@ -17,6 +18,6 @@ body {
     color: rgb(202, 202, 202) !important;
   }
 .red-snackbar {
-  background: #ce4331;
+  background: #d8695a;
   color: white;
 }

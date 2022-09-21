@@ -1,9 +1,47 @@
 <app-header></app-header>
 <div class="wholePage">
-  <div *ngFor="let pet of myPets | async">
-    <h1>{{pet.name}}</h1>
-    <h1>{{pet.breed}}</h1>
-    <h1>{{pet.phoneNumber}}</h1>
-    <h1>{{getAddress(pet.lat,pet.lng)}}</h1>
+  <div *ngFor="let pet of myPets | async; let i = index">
+    <div class="cardLost" *ngIf="pet.found==false">
+      <img class="img" src="{{ imagesArray[i] }}" />
+      <div class="description">
+        <h1>Ime ljubimca: {{ pet.name }}</h1>
+        <h1>Rasa: {{ pet.breed }}</h1>
+        <h1>Kontakt telefon: {{ pet.phoneNumber }}</h1>
+        <h2>Opis: {{ pet.description }}</h2>
+        <div class="buttonDiv">
+          <button
+          (click)="found(pet)"
+            class="btnGreen"
+            mat-stroked-button
+            matTooltip="Oznaci kao nadjen"
+          >
+            Oznaci kao pronadjen
+            <!-- <mat-icon fill="0" fontIcon="check_circle"></mat-icon> -->
+          </button>
+        </div>
+      </div>
+      <!-- <h1>{{this.address}}</h1> -->
+    </div>
+    <div class="cardFound" *ngIf="pet.found==true">
+      <img class="img" src="{{ imagesArray[i] }}" />
+      <div class="description">
+        <h1>Ime ljubimca: {{ pet.name }}</h1>
+        <h1>Rasa: {{ pet.breed }}</h1>
+        <h1>Kontakt telefon: {{ pet.phoneNumber }}</h1>
+        <h2>Opis: {{ pet.description }}</h2>
+        <div class="buttonDiv">
+          <button
+          (click)="found(pet)"
+            class="btnRed"
+            mat-stroked-button
+            matTooltip="Oznaci kao nestao"
+          >
+            Oznaci kao nestao
+            <!-- <mat-icon fill="0" fontIcon="check_circle"></mat-icon> -->
+          </button>
+        </div>
+      </div>
+      <!-- <h1>{{this.address}}</h1> -->
+    </div>
   </div>
 </div>

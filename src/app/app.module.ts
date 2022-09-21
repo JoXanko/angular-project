@@ -31,6 +31,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { LostPetComponent } from './components/lost-pet/lost-pet.component';
@@ -83,6 +85,7 @@ import { MyPetsComponent } from './components/my-pets/my-pets.component';
     MatTooltipModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    MatProgressBarModule,
 
     StoreModule.forRoot<AppState>({ pets: petReducer, breeds: breedReducer }),
     EffectsModule.forRoot([PetEffects, BreedEffects]),

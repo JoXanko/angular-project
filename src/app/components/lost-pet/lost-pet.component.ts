@@ -21,6 +21,11 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/services/auth.service';
 import { FileUpload } from 'src/app/models/fileUpload';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -42,6 +47,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./lost-pet.component.css'],
 })
 export class LostPetComponent implements OnInit {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  matpopupDuration: number = 3000;
   imgURL: string = '';
   mapCenterLat: number = 43.32472;
   mapCenterLng: number = 21.90333;
@@ -94,7 +102,7 @@ export class LostPetComponent implements OnInit {
   filteredOptions: Observable<string[]> | undefined;
   // filteredCatOptions: Observable<string[]> | undefined;
   geocoder = new google.maps.Geocoder();
-  address: string = '';
+  address: string = 'morate postaviti lokaciju na mapi';
   // breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
   constructor(
     private uploadService: FileUploadService,
@@ -105,7 +113,8 @@ export class LostPetComponent implements OnInit {
     petBreed: ElementRef<HTMLInputElement>,
     petDescription: ElementRef<HTMLInputElement>,
     petPhone: ElementRef<HTMLInputElement>,
-    petName: ElementRef<HTMLInputElement>
+    petName: ElementRef<HTMLInputElement>,
+    private _snackBar: MatSnackBar
   ) {
     this.petDescription = petDescription;
     this.petPhone = petPhone;
@@ -176,28 +185,47 @@ export class LostPetComponent implements OnInit {
       );
   }
   submit() {
-    var type: Type;
-    if (this.petType.nativeElement.value === '1') type = Type.Dog;
-    else type = Type.Cat;
+    if (
+      this.petName.nativeElement.value != '' &&
+      this.petPhone.nativeElement.value != '' &&
+      this.petBreed.nativeElement.value != '' &&
+      this.lt != '' &&
+      this.lg != ''
+    ) {
+      var type: Type;
+      if (this.petType.nativeElement.value === '1') type = Type.Dog;
+      else type = Type.Cat;
 
-    this.imgURL = nanoid();
-    this.pet = {
-      id: nanoid(),
-      ownerName: this.ownerN,
-      ownerId: this.ownerID,
-      name: this.petName.nativeElement.value,
-      description: this.petDescription.nativeElement.value,
-      found: false,
-      phoneNumber: this.petPhone.nativeElement.value,
-      photoUrl: this.imgURL,
-      type: type,
-      date: this.localDate.toLocaleDateString('sr-RS'),
-      breed: this.petBreed.nativeElement.value,
-      lat: this.lt,
-      lng: this.lg,
-    };
-    this.store.dispatch(addPet({ pet: this.pet }));
-    this.upload();
+      this.imgURL = nanoid();
+      this.pet = {
+        id: nanoid(),
+        ownerName: this.ownerN,
+        ownerId: this.ownerID,
+        name: this.petName.nativeElement.value,
+        description: this.petDescription.nativeElement.value,
+        found: false,
+        phoneNumber: this.petPhone.nativeElement.value,
+        photoUrl: this.imgURL,
+        type: type,
+        date: this.localDate.toLocaleDateString('sr-RS'),
+        breed: this.petBreed.nativeElement.value,
+        lat: this.lt,
+        lng: this.lg,
+      };
+      this.store.dispatch(addPet({ pet: this.pet }));
+      this.upload();
+    } else {
+      this._snackBar.open(
+        'Morate popuniti sva polja i staviti lokaciju!',
+        'Zatvori',
+        {
+          duration: this.matpopupDuration,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          panelClass: ['red-snackbar'],
+        }
+      );
+    }
   }
   radButValChange(e: any) {
     this.typeOfAnima = e.value;

@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable, of } from 'rxjs';
 import { AppState } from 'src/app/app.state';
 import { AuthService } from 'src/app/services/auth.service';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
-import { loadPets } from 'src/app/store/pet/pet.action';
-import { Pet } from 'src/app/store/pet/pet.model';
+import { PetService } from 'src/app/services/pet.service';
+import { loadPets, updatePet } from 'src/app/store/pet/pet.action';
+import { defaultPet, Pet } from 'src/app/store/pet/pet.model';
 import { getPets } from 'src/app/store/pet/pet.selector';
 
 @Component({
@@ -14,6 +15,8 @@ import { getPets } from 'src/app/store/pet/pet.selector';
   styleUrls: ['./my-pets.component.css'],
 })
 export class MyPetsComponent implements OnInit {
+  petToChange: Pet=defaultPet;
+  address: any;
   geocoder = new google.maps.Geocoder();
   fileUploads?: any[];
   petsArray: Pet[] = [];
@@ -25,7 +28,8 @@ export class MyPetsComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private uploadService: FileUploadService,
-    public auth: AuthService
+    public auth: AuthService,
+    private petService: PetService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +50,19 @@ export class MyPetsComponent implements OnInit {
         this.fileUploads = fileUploads;
         var haveImage: boolean = false;
         var imageURL: string = '';
+        this.store.dispatch(loadPets());
+        this.pets = this.store.select(getPets);
+        this.pets.pipe(
+          map((projects) =>
+            projects.filter((proj) => proj.ownerId === this.ownerID)
+          )
+        );
+        this.myPets = this.pets.pipe(
+          map((projects) =>
+            projects.filter((proj) => proj.ownerId == this.ownerID)
+          )
+        );
+        // this.myPets.subscribe((p) => console.log(p));
         this.myPets.subscribe((pets) =>
           pets.forEach((pet) => {
             // console.log(pet);
@@ -62,30 +79,21 @@ export class MyPetsComponent implements OnInit {
             haveImage = false;
           })
         );
+        // console.log(this.imagesArray);
       });
-console.log(this.imagesArray)
-    // this.store.dispatch(loadPets());
-    // this.pets = this.store.select(getPets);
-    // this.pets.pipe(
-    //   map((projects) => projects.filter((proj) => proj.ownerId == "5aJnAmWoc0Wb2LopVc9SgRQQkHF2"))
-    // );
-    // this.myPets = this.pets.pipe(
-    //   map((projects) =>
-    //     projects.filter((proj) => proj.ownerId == "5aJnAmWoc0Wb2LopVc9SgRQQkHF2")
-    //   )
-    // );
-    
-    // console.log(this.imagesArray)
-    // this.myPets.subscribe((pet)=>
-    // console.log(pet))
   }
   getAddress(lat: any, lng: any) {
+    let latlng = new google.maps.LatLng(lat, lng);
     let request: any = {
-      latLng: { lat: lat, lng: lng },
+      latLng: latlng,
     };
-
+    console.log(request);
     this.geocoder.geocode(request, (results: any, status: any) => {
-      return results[0].formatted_address;
+      this.address = results[0].formatted_address;
     }); //vraca adresu od latitude i longitude
+  }
+  found(pet: Pet) {
+    this.petToChange = { ...pet, found : !pet.found };
+    this.store.dispatch(updatePet({ pet: this.petToChange }));
   }
 }

@@ -16,7 +16,27 @@
     </map-marker>
   </google-map>
   <div class="inputs">
-    <h3>Adresa: {{ address }}</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>Ime ljubimca</mat-label>
+      <input
+        #petName
+        type="text"
+        matInput
+        [formControl]="nameControl"
+        [errorStateMatcher]="matcher"
+        placeholder=""
+      />
+      <mat-error
+        *ngIf="
+          nameControl.hasError('text') && !nameControl.hasError('required')
+        "
+      >
+        Unesite ime
+      </mat-error>
+      <mat-error *ngIf="nameControl.hasError('required')">
+        Morate uneti <strong>ime</strong>
+      </mat-error>
+    </mat-form-field>
     <!-- <h3>Izaberite vrstu zivotinje</h3> -->
     <mat-radio-group
       aria-label="vrsta zivotinje"
@@ -78,28 +98,6 @@
     </mat-form-field> -->
 
     <mat-form-field appearance="fill">
-      <mat-label>Ime ljubimca</mat-label>
-      <input
-        #petName
-        type="text"
-        matInput
-        [formControl]="nameControl"
-        [errorStateMatcher]="matcher"
-        placeholder=""
-      />
-      <mat-error
-        *ngIf="
-          nameControl.hasError('text') && !nameControl.hasError('required')
-        "
-      >
-        Unesite ime
-      </mat-error>
-      <mat-error *ngIf="nameControl.hasError('required')">
-        Morate uneti <strong>ime</strong>
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
       <mat-label>Kontakt telefon</mat-label>
       <input
         #petPhone
@@ -126,6 +124,8 @@
       <textarea matInput #petDescription></textarea>
     </mat-form-field>
 
+    <h3>Adresa: {{ address }}</h3>
+
     <button type="button" mat-stroked-button (click)="fileInput.click()">
       Dodajte sliku
       <mat-icon fontIcon="add_a_photo"></mat-icon>
@@ -139,7 +139,13 @@
     />
     <!-- <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
 <input hidden (change)="onFileSelected()" #fileInput type="file" id="file"> OVAKO TREBA ZA INPUT EVENT DA BUDE-->
-
+    <!-- 
+    <mat-progress-bar
+      class="progressBar"
+      mode="determinate"
+      [value]="percentage"
+    >
+    </mat-progress-bar> -->
     <button mat-stroked-button (click)="submit()">
       Objavi <mat-icon fontIcon="check_circle_outline"></mat-icon>
     </button>

@@ -1,19 +1,33 @@
 .wholePage {
-  margin-top: 2%;
+  margin-top: 1.5%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  justify-content: center;
+  gap: 1.7em;
+  height: 59em;
 }
 .btnStyle {
   height: auto;
   width: 250px;
   font-size: 25px;
   white-space: normal;
-  margin-left: 25px;
-  margin-right: 25px;
+  /* margin-left: 25px;
+  margin-right: 25px; */
 }
 .imgStyle{
   display: block;
   margin-top: 5%;
+}
+.cardClass{
+  background-color: #fcf2d6;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap :1em;
+  padding:1em;
+  border-radius: 20px;
+}
+.welcomeMessage{
+  width: 60%;
 }

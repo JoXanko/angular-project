@@ -20,4 +20,7 @@ export class HeaderComponent implements OnInit {
   myPetsPage(){
     this.router.navigate(['myPets'])
   }
+  mainPage(){
+    this.router.navigate(['mainPage'])
+  }
 }

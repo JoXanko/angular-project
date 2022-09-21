@@ -1,20 +1,28 @@
 <app-header></app-header>
 <div class="wholePage">
-  <mat-card>
+  <!-- <div *ngIf="showLost == false && showFind == false" class="welcomeMessage">
+    <h1>
+      pozdrav jovane ukoliko ste izgubili psa, nemojte brinuti! unesite njegove
+      podatke i ocekujte poziv. Takodje mozete pomoci ostalim vlasnicima da
+      pronadju svoje izgubljene ljubimce
+    </h1>
+    <img src="../../../assets/photos/pas.png" width="250px"/>
+  </div> -->
+  <div class="cardClass">
     <button mat-stroked-button class="btnStyle" (click)="showFindForm()">
       <div class="imgStyle">
         <img width="100em" src="../../../assets/photos/found.png" />
       </div>
-      ljubimci u mojoj okolini
+      Ljubimci u mojoj okolini
     </button>
 
     <button mat-stroked-button class="btnStyle" (click)="showLostForm()">
       <div class="imgStyle">
         <img width="100em" src="../../../assets/photos/lost.png" />
       </div>
-      izgubio sam ljubimca
+      Izgubio sam ljubimca
     </button>
-  </mat-card>
+  </div>
 
   <app-lost-pet *ngIf="showLost"> </app-lost-pet>
   <app-find-pet *ngIf="showFind"> </app-find-pet>
