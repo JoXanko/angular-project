@@ -15,14 +15,14 @@
 a {
   color: inherit;
 }
-.ico{
+.ico {
   transform: scale(1.5);
   color: #fcf3d7;
 }
-.btns{
+.btns {
   margin-left: 0.7em;
   margin-right: 0.7em;
 }
-.img:hover{
-  cursor:pointer
+.img:hover {
+  cursor: pointer;
 }

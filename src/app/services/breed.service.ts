@@ -5,10 +5,9 @@ import { environment } from 'src/environments/environment';
 import { Breed } from '../store/breed/breed.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BreedService {
-
   constructor(private httpClient: HttpClient) {}
 
   private readonly breedUrl: string = environment.api + '/breeds';
@@ -17,7 +16,7 @@ export class BreedService {
   editMode: boolean = false;
 
   // read
-  getBreeds() : Observable<Breed[]> {
+  getBreeds(): Observable<Breed[]> {
     return this.httpClient.get<Breed[]>(this.breedUrl);
   }
 }

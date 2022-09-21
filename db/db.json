@@ -1,21 +1,6 @@
 {
   "pets": [
     {
-      "id": "uqNQI92EdoIacNmAPPQTI",
-      "ownerName": "Jovan Vukadinovic",
-      "ownerId": "s",
-      "name": "Leo",
-      "description": "Starosti oko 4 godina ima plavu ogrlicu",
-      "found": false,
-      "phoneNumber": "063415574",
-      "photoUrl": "HfG-rZdUZyKepBISUYMlO",
-      "type": 0,
-      "date": "21.9.2022.",
-      "breed": "Haski",
-      "lat": 43.32437657994056,
-      "lng": 21.941953809814464
-    },
-    {
       "id": "q3ug-0Zi7Q_Ggb4qhGI2y",
       "ownerName": "Jovan Vukadinovic",
       "ownerId": "8DqxUAlqP8hrutWT9OSg29EMiqy1",
@@ -31,19 +16,49 @@
       "lng": 21.88290229614259
     },
     {
-      "id": "jzF8wI0r26jvBTbRTVCBn",
+      "id": "IY11qyclvUsHUY7E7euy0",
       "ownerName": "Jovan Vukadinovic",
       "ownerId": "8DqxUAlqP8hrutWT9OSg29EMiqy1",
       "name": "Zuca",
-      "description": "Vrlo star pas potrcao za autom jer je bila otvorena ograda ima povredjenu levu nogu",
-      "found": false,
-      "phoneNumber": "066641548",
-      "photoUrl": "K8Fmp8jWq30zchhKzTILP",
+      "description": "Pobegao danas sa crvenom ogrlicom",
+      "found": true,
+      "phoneNumber": "062354154",
+      "photoUrl": "5ylkp1ocVMBlHk1Ko5GXo",
       "type": 0,
       "date": "21.9.2022.",
       "breed": "Zlatni retriver",
-      "lat": 43.33736275057806,
-      "lng": 21.890798719482433
+      "lat": 43.31053279389748,
+      "lng": 21.896806867675792
+    },
+    {
+      "id": "byzsO1sX3vj8_yyJu5UK_",
+      "ownerName": "Jovan Vukadinovic",
+      "ownerId": "8DqxUAlqP8hrutWT9OSg29EMiqy1",
+      "name": "Cvrle",
+      "description": "Ima crvenu ogrlicu izgubljena danas",
+      "found": false,
+      "phoneNumber": "0654154",
+      "photoUrl": "ng_bjre-mCu9y4S-lR9z-",
+      "type": 0,
+      "date": "21.9.2022.",
+      "breed": "Sijamska",
+      "lat": 43.31822380510006,
+      "lng": 21.91105165665753
+    },
+    {
+      "id": "Ly_uyFWAB2AMGZk8otafY",
+      "ownerName": "Jovan Vukadinovic",
+      "ownerId": "neki drugi id tako da se ne prikaze u myPets",
+      "name": "Leo",
+      "description": "Iako izgleda strasno znajte da nije ukoliko ga vidite molim vas javite se na telefon cim pre",
+      "found": false,
+      "phoneNumber": "065154125",
+      "photoUrl": "skCOiMB7EDIcb-WxoLrAA",
+      "type": 0,
+      "date": "21.9.2022.",
+      "breed": "Rotvajler",
+      "lat": 43.3239649260701,
+      "lng": 21.945561578804938
     }
   ],
   "breeds": [

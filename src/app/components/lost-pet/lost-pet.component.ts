@@ -1,4 +1,3 @@
-// import { google } from '@agm/core/services/google-maps-types';
 import { defaultPet, Pet, Type } from '../../store/pet/pet.model';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
@@ -17,7 +16,6 @@ import { nanoid } from 'nanoid';
 import { Breed } from 'src/app/store/breed/breed.model';
 import { loadBreeds } from 'src/app/store/breed/breed.action';
 import { getBreeds } from 'src/app/store/breed/breed.selector';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/services/auth.service';
 import { FileUpload } from 'src/app/models/fileUpload';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
@@ -65,6 +63,38 @@ export class LostPetComponent implements OnInit {
   ownerN: string = '';
   ownerID: string = '';
   breeds: Observable<Breed[]> = of([]);
+  localDate: Date = new Date();
+  imageFile: any;
+  lt: any;
+  lg: any;
+  BreedControl = new FormControl<string | null>(null, Validators.required);
+  nameControl = new FormControl('', [Validators.required]);
+  phoneControl = new FormControl('', [Validators.required]);
+  matcher = new MyErrorStateMatcher();
+  filteredOptions: Observable<string[]> | undefined;
+  geocoder = new google.maps.Geocoder();
+  address: string = 'morate postaviti lokaciju na mapi';
+  snackBarAction: string = 'Zatvori';
+  greenSanckBar: string = 'green-snackbar';
+  redSnackBar: string = 'red-snackbar';
+
+  markerIco = {
+    url: '../../../assets/photos/markerPaw.png',
+    scaledSize: new google.maps.Size(35, 55),
+  };
+  value = '';
+  marker: any;
+  mapOptions: google.maps.MapOptions = {
+    streetViewControl: false,
+  };
+  center: google.maps.LatLngLiteral = {
+    lat: this.mapCenterLat,
+    lng: this.mapCenterLng,
+  };
+  markerOptions: google.maps.MarkerOptions = {
+    animation: google.maps.Animation.BOUNCE,
+  };
+
   @Input() pet: Pet | null = defaultPet;
   @ViewChild('petType', { static: true }) petType: ElementRef<HTMLInputElement>;
   @ViewChild('petBreed', { static: true })
@@ -74,40 +104,10 @@ export class LostPetComponent implements OnInit {
   petPhone: ElementRef<HTMLInputElement>;
   @ViewChild('petDescription', { static: true })
   petDescription: ElementRef<HTMLInputElement>;
-  localDate: Date = new Date();
-  imageFile: any;
-  lt: any;
-  lg: any;
-  BreedControl = new FormControl<string | null>(null, Validators.required);
-  // catBreedControl = new FormControl<string | null>(null, Validators.required);
-  nameControl = new FormControl('', [Validators.required]);
-  phoneControl = new FormControl('', [Validators.required]);
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-  markerIco = {
-    url: '../../../assets/photos/markerPaw.png',
-    scaledSize: new google.maps.Size(35, 55),
-  };
 
-  matcher = new MyErrorStateMatcher();
-  filteredOptions: Observable<string[]> | undefined;
-  // filteredCatOptions: Observable<string[]> | undefined;
-  geocoder = new google.maps.Geocoder();
-  address: string = 'morate postaviti lokaciju na mapi';
-  // breeds: string[] = ['Maltezer', 'Sarplaninac', 'Nemacki ovcar'];
   constructor(
     private uploadService: FileUploadService,
     public auth: AuthService,
-    private petService: PetService,
     private store: Store<AppState>,
     petType: ElementRef<HTMLInputElement>,
     petBreed: ElementRef<HTMLInputElement>,
@@ -129,7 +129,7 @@ export class LostPetComponent implements OnInit {
       this.ownerN = e.displayName;
     });
     this.dogBreeds = [];
-    this.catBreeds = []; //NE RADI OVAKO
+    this.catBreeds = [];
     this.store.dispatch(loadBreeds());
     this.breeds = this.store.select(getBreeds);
     this.breeds.subscribe((res) => console.log(res));
@@ -143,22 +143,21 @@ export class LostPetComponent implements OnInit {
     console.log(this.dogBreeds);
     console.log(this.catBreeds);
   }
-  value = '';
-  marker: any;
-  // options={options: {animation:google.maps.Animation.DROP}};
-  mapOptions: google.maps.MapOptions = {
-    streetViewControl: false,
-  };
-  center: google.maps.LatLngLiteral = {
-    lat: this.mapCenterLat,
-    lng: this.mapCenterLng,
-  };
-  markerOptions: google.maps.MarkerOptions = {
-    animation: google.maps.Animation.BOUNCE,
-  };
+
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+
   clk(e: any) {
     this.marker = e.latLng;
-    //console.log(e.latLng.lat(), e.latLng.lng());
     this.lt = e.latLng.lat();
     this.lg = e.latLng.lng();
     let request: any = {
@@ -170,7 +169,6 @@ export class LostPetComponent implements OnInit {
     }); //vraca adresu od latitude i longitude
   }
   displayFn(user: string): string {
-    // return user && user.name ? user.name : '';
     return user && user ? user : '';
   }
   private _filter(name: string, type: string): string[] {
@@ -214,15 +212,25 @@ export class LostPetComponent implements OnInit {
       };
       this.store.dispatch(addPet({ pet: this.pet }));
       this.upload();
-    } else {
       this._snackBar.open(
-        'Morate popuniti sva polja i staviti lokaciju!',
-        'Zatvori',
+        'Uspesno ste objavili da je ljubimac izgubljen!',
+        this.snackBarAction,
         {
           duration: this.matpopupDuration,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
-          panelClass: ['red-snackbar'],
+          panelClass: [this.greenSanckBar],
+        }
+      );
+    } else {
+      this._snackBar.open(
+        'Morate popuniti sva polja i staviti lokaciju!',
+        this.snackBarAction,
+        {
+          duration: this.matpopupDuration,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          panelClass: [this.redSnackBar],
         }
       );
     }
@@ -230,8 +238,6 @@ export class LostPetComponent implements OnInit {
   radButValChange(e: any) {
     this.typeOfAnima = e.value;
     if (e.value == 1) {
-      // this.showDogOptions = true;
-      // this.showCatOptions = false;
       this.filteredOptions = this.BreedControl.valueChanges.pipe(
         startWith(''),
         map((value) => {
@@ -242,8 +248,6 @@ export class LostPetComponent implements OnInit {
         })
       );
     } else {
-      // this.showDogOptions = false;
-      // this.showCatOptions = true;
       this.filteredOptions = this.BreedControl.valueChanges.pipe(
         startWith(''),
         map((value) => {

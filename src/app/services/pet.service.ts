@@ -5,19 +5,21 @@ import { environment } from 'src/environments/environment';
 import { Pet } from '../store/pet/pet.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PetService {
-
-  constructor(private httpClient: HttpClient) {}
-
-  private readonly petUrl: string = environment.api + '/pets';
-
   transferPet: Pet | null = null;
   editMode: boolean = false;
+  private readonly petUrl: string = environment.api + '/pets';
+
+  constructor(private httpClient: HttpClient) {}
+  // create
+  addPet(pet: Pet) {
+    return this.httpClient.post<Pet>(this.petUrl, pet);
+  }
 
   // read
-  getPets() : Observable<Pet[]> {
+  getPets(): Observable<Pet[]> {
     return this.httpClient.get<Pet[]>(this.petUrl);
   }
 
@@ -26,14 +28,8 @@ export class PetService {
     return this.httpClient.patch(`${this.petUrl}/${pet.id}`, pet);
   }
 
-  // create
-  addPet(pet: Pet) {
-    return this.httpClient.post<Pet>(this.petUrl, pet);
-  }
-
   // delete
   deletePet(petID: string) {
     return this.httpClient.delete(`${this.petUrl}/${petID}`);
   }
-
 }

@@ -1,10 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
-// import * as actions from '../../store/petOLD/pet.action';
-// import * as fromPet from '../../store/petOLD/pet.reducer';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
-import { loadPets, loadPetsSuccess } from 'src/app/store/pet/pet.action';
+import { loadPets } from 'src/app/store/pet/pet.action';
 import { Pet } from 'src/app/store/pet/pet.model';
 import { getPets } from 'src/app/store/pet/pet.selector';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -18,6 +16,9 @@ import { FileUploadService } from 'src/app/services/fileUpload.service';
 export class FindPetComponent implements OnInit {
   mapCenterLat: number = 43.32472;
   mapCenterLng: number = 21.90333;
+  earthRadius: number = 6371;
+  defaultMarkerIco: string = '../../../assets/photos/markerDef.png';
+  pawMarkerIco: string = '../../../assets/photos/markerPaw.png';
   fileUploads?: any[];
   petsArray: Pet[] = [];
   imagesArray: string[] = [];
@@ -26,7 +27,7 @@ export class FindPetComponent implements OnInit {
   public marker: any;
   constructor(
     private store: Store<AppState>,
-    private uploadService: FileUploadService // map: ElementRef<HTMLInputElement>
+    private uploadService: FileUploadService
   ) {}
   myMarker: any;
   center: google.maps.LatLngLiteral = {
@@ -43,7 +44,6 @@ export class FindPetComponent implements OnInit {
     animation: google.maps.Animation.DROP,
   };
   mapClk(e: any) {
-    // this.myMarker = e.latLng;
     var lt = e.latLng.lat();
     var lg = e.latLng.lng();
     var pos = {
@@ -51,9 +51,6 @@ export class FindPetComponent implements OnInit {
       lng: lg,
     };
     this.myMarker = pos;
-    // let request: any = {
-    //   latLng: this.myMarker,
-    // };
   }
 
   public openInfoWindow(marker: MapMarker, infoWindow: MapInfoWindow) {
@@ -65,9 +62,8 @@ export class FindPetComponent implements OnInit {
       .getFiles(6)
       .snapshotChanges()
       .pipe(
-        map((changes) =>
-          // store the key
-          changes.map((c) => ({ key: c.payload.key, ...c.payload.val() }))
+        map((file) =>
+          file.map((c) => ({ key: c.payload.key, ...c.payload.val() }))
         )
       )
       .subscribe((fileUploads) => {
@@ -76,9 +72,7 @@ export class FindPetComponent implements OnInit {
         var imageURL: string = '';
         this.notFoundPets.subscribe((pets) =>
           pets.forEach((pet) => {
-            // console.log(pet);
             fileUploads.forEach((photo) => {
-              // console.log(photo.key);
               if (pet.photoUrl == photo.key && photo.url) {
                 imageURL = photo.url;
                 haveImage = true;
@@ -91,8 +85,8 @@ export class FindPetComponent implements OnInit {
           })
         );
       });
-    console.log(this.imagesArray);
 
+    //sve zivotinje koje nisu pronadjene
     this.store.dispatch(loadPets());
     this.pets = this.store.select(getPets);
     this.pets.pipe(
@@ -112,11 +106,11 @@ export class FindPetComponent implements OnInit {
     });
   }
   myMarkerIco = {
-    url: '../../../assets/photos/markerDef.png',
+    url: this.defaultMarkerIco,
     scaledSize: new google.maps.Size(35, 55),
   };
   petsMarkerIco = {
-    url: '../../../assets/photos/markerPaw.png',
+    url: this.pawMarkerIco,
     scaledSize: new google.maps.Size(35, 55),
   };
   getLtLg(pet: Pet): google.maps.LatLngLiteral {
@@ -129,7 +123,6 @@ export class FindPetComponent implements OnInit {
       var lon1 = this.myMarker.lng;
       var lat2 = pos2.lat;
       var lon2 = pos2.lng;
-      var R = 6371; // Radius of the earth in km
       var dLat = this.deg2rad(lat2 - lat1); // deg2rad below
       var dLon = this.deg2rad(lon2 - lon1);
       var a =
@@ -139,7 +132,7 @@ export class FindPetComponent implements OnInit {
           Math.sin(dLon / 2) *
           Math.sin(dLon / 2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      var d = R * c; // Distance in km
+      var d = this.earthRadius * c; // Distance in km
       if (d < 1) {
         return (
           'Udaljenost od vase lokacije: ' + (d * 1000).toFixed(0) + ' metara'

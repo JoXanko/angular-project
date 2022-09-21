@@ -1,54 +1,48 @@
-.wholePage{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap:2em;
-    margin-top: 2em;
+.wholePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+  margin-top: 2em;
 }
-.cardLost{
-    background-color: #fcf2d6;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap:5em;
-    border-radius: 30px;
-    border:none;
-    padding: 1em;
+.cardLost {
+  background-color: #fcf2d6;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5em;
+  border-radius: 30px;
+  border: none;
+  padding: 1em;
 }
-.cardLost:hover{
-    background-color: #ffd0d0;
+.cardLost:hover {
+  background-color: #ffd0d0;
 }
-.cardFound{
-    background-color: #fcf2d6;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap:5em;
-    border-radius: 30px;
-    border:none;
-    padding: 1em;
+.cardFound {
+  background-color: #fcf2d6;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5em;
+  border-radius: 30px;
+  border: none;
+  padding: 1em;
 }
-.cardFound:hover{
-    background-color: #dff3d6;
+.cardFound:hover {
+  background-color: #dff3d6;
 }
-.img{
-    border-radius: 10%;
-    width:20em
+.img {
+  border-radius: 10%;
+  width: 20em;
 }
-.description{
-    margin-right: 4em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width:30em;
+.description {
+  margin-right: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30em;
 }
-.buttonDiv{
-    display: flex;
-    align-self: flex-end;
+.buttonDiv {
+  display: flex;
+  align-self: flex-end;
 }
-/* .btnRed:hover{
-    background-color:rgb(231, 194, 191)
-}
-.btnGreen:hover{
-    background-color:rgb(191, 231, 191)
-} */

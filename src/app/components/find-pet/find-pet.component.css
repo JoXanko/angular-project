@@ -1,18 +1,18 @@
-.mapClass{
-    margin-bottom: 1%;
-    background-color: #fcf2d6;
-    padding: 1em;
-    border-radius: 20px;
+.mapClass {
+  margin-bottom: 1%;
+  background-color: #fcf2d6;
+  padding: 1em;
+  border-radius: 20px;
 }
-.infWindow{
-    display: flex;
-    flex-direction: row;
-    gap:1em
+.infWindow {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
 }
-.img{
-    width:150px;
-    border-radius: 1em;
+.img {
+  width: 150px;
+  border-radius: 1em;
 }
-.btn{
-    margin-bottom: 1em;
+.btn {
+  margin-bottom: 1em;
 }

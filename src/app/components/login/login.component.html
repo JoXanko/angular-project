@@ -1,22 +1,5 @@
-<!-- <img
-  class="gif"
-  id="gif"
-  src="../../../assets/photos/pawsTransparent.gif"
-  width="200px"
-/> -->
 <router-outlet></router-outlet>
-<!-- <img
-      src="../../../assets/photos/login1.jpg"
-      src="../../../assets/photos/login2.jpg"
-      class="img"
-    /> -->
-<!-- <img class="img" src="../../../assets/photos/photo1.jpg" /> -->
-
-<div *ngIf="auth.user$ | async; then authenticated; else guest">
-  <!-- template will replace this div -->
-</div>
-
-<!-- User NOT logged in -->
+<div *ngIf="auth.user$ | async; then authenticated; else guest"></div>
 <ng-template #guest>
   <div class="wholePage" *ngIf="auth.show">
     <img class="img" src="{{ this.slides[this.imageNum] }}" />

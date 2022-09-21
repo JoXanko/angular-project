@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="wholePage">
   <div *ngFor="let pet of myPets | async; let i = index">
-    <div class="cardLost" *ngIf="pet.found==false">
+    <div class="cardLost" *ngIf="pet.found == false">
       <img class="img" src="{{ imagesArray[i] }}" />
       <div class="description">
         <h1>Ime ljubimca: {{ pet.name }}</h1>
@@ -10,7 +10,7 @@
         <h2>Opis: {{ pet.description }}</h2>
         <div class="buttonDiv">
           <button
-          (click)="found(pet)"
+            (click)="found(pet)"
             class="btnGreen"
             mat-stroked-button
             matTooltip="Oznaci kao nadjen"
@@ -22,7 +22,7 @@
       </div>
       <!-- <h1>{{this.address}}</h1> -->
     </div>
-    <div class="cardFound" *ngIf="pet.found==true">
+    <div class="cardFound" *ngIf="pet.found == true">
       <img class="img" src="{{ imagesArray[i] }}" />
       <div class="description">
         <h1>Ime ljubimca: {{ pet.name }}</h1>
@@ -31,7 +31,7 @@
         <h2>Opis: {{ pet.description }}</h2>
         <div class="buttonDiv">
           <button
-          (click)="found(pet)"
+            (click)="found(pet)"
             class="btnRed"
             mat-stroked-button
             matTooltip="Oznaci kao nestao"

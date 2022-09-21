@@ -12,13 +12,11 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {}
   showLostForm() {
-    //nece moz ovako zeza posle loggout
     this.showLost = !this.showLost;
-    this.showFind ? this.showFind=!this.showFind:'';
+    this.showFind ? (this.showFind = !this.showFind) : '';
   }
   showFindForm() {
-    //nece moz ovako zeza posle loggout
     this.showFind = !this.showFind;
-    this.showLost? this.showLost=!this.showLost:'';
+    this.showLost ? (this.showLost = !this.showLost) : '';
   }
 }

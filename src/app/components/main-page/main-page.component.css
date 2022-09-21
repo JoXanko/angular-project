@@ -12,22 +12,20 @@
   width: 250px;
   font-size: 25px;
   white-space: normal;
-  /* margin-left: 25px;
-  margin-right: 25px; */
 }
-.imgStyle{
+.imgStyle {
   display: block;
   margin-top: 5%;
 }
-.cardClass{
+.cardClass {
   background-color: #fcf2d6;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap :1em;
-  padding:1em;
+  gap: 1em;
+  padding: 1em;
   border-radius: 20px;
 }
-.welcomeMessage{
+.welcomeMessage {
   width: 60%;
 }

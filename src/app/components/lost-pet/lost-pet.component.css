@@ -1,30 +1,30 @@
-.wholePage{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2em;
-    background-color: #fcf2d6;
-    padding: 1em;
-    border-radius: 20px;
-    margin-bottom: 1%;
+.wholePage {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
+  background-color: #fcf2d6;
+  padding: 1em;
+  border-radius: 20px;
+  margin-bottom: 1%;
 }
-.inputs{
-    display: flex;
-    flex-direction: column;
-    gap:1em;
-    width:40em;
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 40em;
 }
-.matRadio{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap:4em;
+.matRadio {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4em;
 }
-.breed{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
+.breed {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
 }

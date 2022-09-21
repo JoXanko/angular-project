@@ -23,7 +23,7 @@ export interface Pet {
 export const defaultPet: Pet = {
   id: '',
   ownerName: '',
-  ownerId:'',
+  ownerId: '',
   name: '',
   description: '',
   found: false,
@@ -39,7 +39,7 @@ export const defaultPet: Pet = {
 export const emptyPet: Pet = {
   id: '',
   ownerName: '',
-  ownerId:'',
+  ownerId: '',
   name: '',
   description: '',
   found: false,

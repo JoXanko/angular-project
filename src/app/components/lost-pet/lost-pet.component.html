@@ -15,6 +15,7 @@
     >
     </map-marker>
   </google-map>
+
   <div class="inputs">
     <mat-form-field appearance="fill">
       <mat-label>Ime ljubimca</mat-label>
@@ -37,7 +38,7 @@
         Morate uneti <strong>ime</strong>
       </mat-error>
     </mat-form-field>
-    <!-- <h3>Izaberite vrstu zivotinje</h3> -->
+
     <mat-radio-group
       aria-label="vrsta zivotinje"
       #petType
@@ -47,17 +48,6 @@
       <mat-radio-button value="1">Pas</mat-radio-button>
       <mat-radio-button value="2">Macka</mat-radio-button>
     </mat-radio-group>
-    <!-- <mat-form-field appearance="fill">
-  <mat-label>Izaberite rasu</mat-label>
-  <mat-select [formControl]="breedControl" required>
-    <mat-option *ngFor="let rasa of breeds" [value]="rasa">
-      {{ rasa }}
-       <mat-option *ngFor="let rasa of rase" [value]="rasa.value">
-      {{rasa.viewValue}} 
-    </mat-option>
-  </mat-select>
-  <mat-error *ngIf="breedControl.hasError('required')">Morate izabrati rasu</mat-error>
-</mat-form-field> -->
 
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Izaberite rasu</mat-label>
@@ -77,25 +67,6 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <!-- 
-    <mat-form-field class="example-full-width" appearance="fill" >
-      <mat-label>Izaberite rasu</mat-label>
-      <input
-        #petCatBreed
-        type="text"
-        matInput
-        [formControl]="catBreedControl"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option
-          *ngFor="let option of filteredCatOptions | async"
-          [value]="option"
-        >
-          {{ option }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field> -->
 
     <mat-form-field appearance="fill">
       <mat-label>Kontakt telefon</mat-label>
@@ -130,6 +101,7 @@
       Dodajte sliku
       <mat-icon fontIcon="add_a_photo"></mat-icon>
     </button>
+
     <input
       (change)="selectFile($event)"
       hidden
@@ -137,15 +109,14 @@
       type="file"
       id="file"
     />
-    <!-- <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-<input hidden (change)="onFileSelected()" #fileInput type="file" id="file"> OVAKO TREBA ZA INPUT EVENT DA BUDE-->
-    <!-- 
+
+    
     <mat-progress-bar
       class="progressBar"
       mode="determinate"
       [value]="percentage"
     >
-    </mat-progress-bar> -->
+    </mat-progress-bar>
     <button mat-stroked-button (click)="submit()">
       Objavi <mat-icon fontIcon="check_circle_outline"></mat-icon>
     </button>

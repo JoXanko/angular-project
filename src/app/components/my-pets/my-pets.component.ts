@@ -15,7 +15,7 @@ import { getPets } from 'src/app/store/pet/pet.selector';
   styleUrls: ['./my-pets.component.css'],
 })
 export class MyPetsComponent implements OnInit {
-  petToChange: Pet=defaultPet;
+  petToChange: Pet = defaultPet;
   address: any;
   geocoder = new google.maps.Geocoder();
   fileUploads?: any[];
@@ -25,11 +25,11 @@ export class MyPetsComponent implements OnInit {
   myPets: Observable<Pet[]> = of([]);
   ownerID: string = '';
   ownerN: string = '';
+
   constructor(
     private store: Store<AppState>,
     private uploadService: FileUploadService,
-    public auth: AuthService,
-    private petService: PetService
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -41,9 +41,8 @@ export class MyPetsComponent implements OnInit {
       .getFiles(6)
       .snapshotChanges()
       .pipe(
-        map((changes) =>
-          // store the key
-          changes.map((c) => ({ key: c.payload.key, ...c.payload.val() }))
+        map((file) =>
+          file.map((c) => ({ key: c.payload.key, ...c.payload.val() }))
         )
       )
       .subscribe((fileUploads) => {
@@ -62,12 +61,10 @@ export class MyPetsComponent implements OnInit {
             projects.filter((proj) => proj.ownerId == this.ownerID)
           )
         );
-        // this.myPets.subscribe((p) => console.log(p));
+
         this.myPets.subscribe((pets) =>
           pets.forEach((pet) => {
-            // console.log(pet);
             fileUploads.forEach((photo) => {
-              // console.log(photo.key);
               if (pet.photoUrl == photo.key && photo.url) {
                 imageURL = photo.url;
                 haveImage = true;
@@ -79,7 +76,6 @@ export class MyPetsComponent implements OnInit {
             haveImage = false;
           })
         );
-        // console.log(this.imagesArray);
       });
   }
   getAddress(lat: any, lng: any) {
@@ -93,7 +89,7 @@ export class MyPetsComponent implements OnInit {
     }); //vraca adresu od latitude i longitude
   }
   found(pet: Pet) {
-    this.petToChange = { ...pet, found : !pet.found };
+    this.petToChange = { ...pet, found: !pet.found };
     this.store.dispatch(updatePet({ pet: this.petToChange }));
   }
 }
