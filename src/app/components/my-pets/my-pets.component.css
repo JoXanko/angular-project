@@ -14,6 +14,7 @@
   border-radius: 30px;
   border: none;
   padding: 1em;
+  width:65em
 }
 .cardLost:hover {
   background-color: #ffd0d0;
@@ -27,22 +28,36 @@
   border-radius: 30px;
   border: none;
   padding: 1em;
+  width:65em
 }
 .cardFound:hover {
   background-color: #dff3d6;
 }
+.imgDiv {
+  width: 20em;
+  height: 25em;
+  display: flex;
+  align-items: center;
+  background-color: #e5d9b6;
+  border-radius: 10%;
+}
 .img {
   border-radius: 10%;
   width: 20em;
+  /* max-height: 30em; */
 }
 .description {
-  margin-right: 4em;
+  /* margin-right: 4em; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 30em;
+  width: 35em;
 }
 .buttonDiv {
+  margin:1em;
   display: flex;
   align-self: flex-end;
+}
+h2 {
+  max-width: 25em;
 }

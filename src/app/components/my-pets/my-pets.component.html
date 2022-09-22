@@ -2,7 +2,9 @@
 <div class="wholePage">
   <div *ngFor="let pet of myPets | async; let i = index">
     <div class="cardLost" *ngIf="pet.found == false">
-      <img class="img" src="{{ imagesArray[i] }}" />
+      <div class="imgDiv">
+        <img class="img" src="{{ imagesArray[i] }}" />
+      </div>
       <div class="description">
         <h1>Ime ljubimca: {{ pet.name }}</h1>
         <h1>Rasa: {{ pet.breed }}</h1>
@@ -22,22 +24,71 @@
       </div>
       <!-- <h1>{{this.address}}</h1> -->
     </div>
-    <div class="cardFound" *ngIf="pet.found == true">
-      <img class="img" src="{{ imagesArray[i] }}" />
-      <div class="description">
-        <h1>Ime ljubimca: {{ pet.name }}</h1>
-        <h1>Rasa: {{ pet.breed }}</h1>
-        <h1>Kontakt telefon: {{ pet.phoneNumber }}</h1>
-        <h2>Opis: {{ pet.description }}</h2>
+    <div class="cardFound" *ngIf="pet.found == true" [id]="pet.id + 'expand'">
+      <div class="imgDiv">
+        <img class="img" src="{{ imagesArray[i] }}" />
+      </div>
+      <div class="description" [id]="pet.id + 'old'">
+        <div>
+          <h1>Ime ljubimca: {{ pet.name }}</h1>
+          <h1>Rasa: {{ pet.breed }}</h1>
+          <h1>Kontakt telefon: {{ pet.phoneNumber }}</h1>
+          <h2>Opis: {{ pet.description }}</h2>
+        </div>
         <div class="buttonDiv">
           <button
-            (click)="found(pet)"
+            (click)="displayAndHide(pet)"
             class="btnRed"
             mat-stroked-button
-            matTooltip="Oznaci kao nestao"
+            matTooltip="Izmeni ljubimca"
           >
-            Oznaci kao nestao
+            Izmeni ljubimca
             <!-- <mat-icon fill="0" fontIcon="check_circle"></mat-icon> -->
+          </button>
+        </div>
+      </div>
+      <div class="description" [id]="pet.id" style="display: none">
+        <h1>Ime ljubimca: {{ pet.name }}</h1>
+        <h1>Rasa: {{ pet.breed }}</h1>
+        <mat-form-field appearance="fill">
+          <mat-label>Novi kontakt telefon</mat-label>
+          <input
+            id="petPhone"
+            type="number"
+            matInput
+            [placeholder]="pet.phoneNumber"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Dodatne informacije</mat-label>
+          <textarea
+            matInput
+            id="petDescription"
+            [placeholder]="pet.description"
+          ></textarea>
+        </mat-form-field>
+        <google-map
+          (mapClick)="clk($event)"
+          height="30em"
+          width="35em"
+          [center]="center"
+          [zoom]="12"
+          streetViewControl:false
+          [options]="mapOptions"
+        >
+          <map-marker
+            [position]="marker"
+            [options]="markerOptions"
+            [icon]="markerIco"
+          >
+          </map-marker>
+        </google-map>
+        <div class="buttonDiv">
+          <button mat-stroked-button (click)="close(pet)" style="margin-right:1em">
+            Otkazi
+          </button>
+          <button mat-stroked-button (click)="update(pet)">
+            Sacuvaj promene
           </button>
         </div>
       </div>

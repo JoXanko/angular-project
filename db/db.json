@@ -20,15 +20,15 @@
       "ownerName": "Jovan Vukadinovic",
       "ownerId": "8DqxUAlqP8hrutWT9OSg29EMiqy1",
       "name": "Zuca",
-      "description": "Pobegao danas sa crvenom ogrlicom",
+      "description": "Otrgao se sa lanca kasno sinoc, imao je plavu ogrlicu sa crvenim sapicama na njoj",
       "found": true,
-      "phoneNumber": "062354154",
+      "phoneNumber": "0611152225",
       "photoUrl": "5ylkp1ocVMBlHk1Ko5GXo",
       "type": 0,
       "date": "21.9.2022.",
       "breed": "Zlatni retriver",
-      "lat": 43.31053279389748,
-      "lng": 21.896806867675792
+      "lat": 43.30523188560095,
+      "lng": 21.923939817207913
     },
     {
       "id": "byzsO1sX3vj8_yyJu5UK_",
@@ -102,8 +102,23 @@
       "type": 0,
       "date": "22.9.2022.",
       "breed": "Rotvajler",
-      "lat": 43.33091631714549,
-      "lng": 21.995717751838693
+      "lat": 43.315852896483264,
+      "lng": 21.856981428222667
+    },
+    {
+      "id": "jCZvH4S1f3gZPaMuJfvnj",
+      "ownerName": "Jovan Vukadinovic",
+      "ownerId": "8DqxUAlqP8hrutWT9OSg29EMiqy1",
+      "name": "Skini",
+      "description": "",
+      "found": false,
+      "phoneNumber": "06516251",
+      "photoUrl": "Dp-SGKcNfaOFJyObCKiIn",
+      "type": 0,
+      "date": "22.9.2022.",
+      "breed": "Sfinga",
+      "lat": 43.31867261915501,
+      "lng": 21.934701116638234
     }
   ],
   "breeds": [
