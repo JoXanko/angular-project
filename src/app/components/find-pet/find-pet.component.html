@@ -31,14 +31,16 @@
       <map-info-window #infoWindow="mapInfoWindow">
         <div class="infWindow">
           <!-- <h1>{{ imagesArray[i] }}</h1> -->
-          <img src="{{ imagesArray[i] }}" class="img" />
+          <div class="imgDiv">
+            <img src="{{ imagesArray[i] }}" class="img" />
+          </div>
           <div>
             <h1>
-              Zdravo, ovo na slici sam ja. Odazivam se na ime
-              <strong>{{ pet.name }}</strong> i izgubio sam se dana
-              <strong>{{ pet.date }} </strong>na ovoj lokaciji. Rase sam
-              <strong>{{ pet.breed }}</strong> i ako me vidis obavesti mog
-              vlasnika na broj
+              Zdravo, zovem se
+              <strong>{{ pet.name }}</strong> . Izgubio sam se dana
+              <strong>{{ pet.date }} </strong> na ovoj lokaciji. Rasa mi je
+              <strong>{{ pet.breed }}</strong
+              >, molim te javi mom vlasniku ako si me pronasao, njegov broj je
               <strong>{{ pet.phoneNumber }}</strong>
             </h1>
           </div>

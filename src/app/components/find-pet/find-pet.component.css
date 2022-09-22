@@ -10,9 +10,17 @@
   gap: 1em;
 }
 .img {
-  width: 150px;
+  width: 12em;
   border-radius: 1em;
 }
 .btn {
   margin-bottom: 1em;
+}
+.imgDiv{
+  width: 12em;
+  height: 14em;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 1em;
 }
