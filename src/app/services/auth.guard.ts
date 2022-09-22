@@ -8,7 +8,8 @@ import {
   Router,
 } from '@angular/router';
 import { map, Observable, take, tap } from 'rxjs';
-import { AuthService } from './auth.service';
+import { UserEffects } from '../store/user/user.effects';
+// import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { AuthService } from './auth.service';
 export class AuthGuard implements CanActivate {
   constructor(
     /*private auth: AngularFireAuth,*/ private router: Router,
-    public auth: AuthService
+    public UserEffects: UserEffects
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,7 +27,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.auth.user$.pipe(
+    return this.UserEffects.user$.pipe(
       take(1),
       map((user) => !!user),
       tap((loggedIn) => {

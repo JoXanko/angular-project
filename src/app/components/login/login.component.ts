@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+// import { AuthService } from 'src/app/services/auth.service';
+import { UserEffects } from 'src/app/store/user/user.effects';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
     '../../../assets/photos/photo2.jpg',
     '../../../assets/photos/photo3.jpg',
   ];
-  constructor(public auth: AuthService) {}
+  constructor(public UserEffects: UserEffects) {}
 
   ngOnInit(): void {}
 }

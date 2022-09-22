@@ -59,7 +59,7 @@ export class FindPetComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploadService
-      .getFiles(6)
+      .getFiles(100)
       .snapshotChanges()
       .pipe(
         map((file) =>

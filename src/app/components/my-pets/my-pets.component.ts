@@ -2,12 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable, of } from 'rxjs';
 import { AppState } from 'src/app/app.state';
-import { AuthService } from 'src/app/services/auth.service';
+// import { AuthService } from 'src/app/services/auth.service';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
 import { PetService } from 'src/app/services/pet.service';
 import { loadPets, updatePet } from 'src/app/store/pet/pet.action';
 import { defaultPet, Pet } from 'src/app/store/pet/pet.model';
 import { getPets } from 'src/app/store/pet/pet.selector';
+import { UserEffects } from 'src/app/store/user/user.effects';
 
 @Component({
   selector: 'app-my-pets',
@@ -29,16 +30,16 @@ export class MyPetsComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private uploadService: FileUploadService,
-    public auth: AuthService
+    public UserEffects: UserEffects
   ) {}
 
   ngOnInit(): void {
-    this.auth.user$.subscribe((e) => {
+    this.UserEffects.user$.subscribe((e) => {
       this.ownerID = e.uid;
       this.ownerN = e.displayName;
     });
     this.uploadService
-      .getFiles(6)
+      .getFiles(100)
       .snapshotChanges()
       .pipe(
         map((file) =>

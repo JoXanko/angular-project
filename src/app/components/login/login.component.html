@@ -1,13 +1,13 @@
 <router-outlet></router-outlet>
-<div *ngIf="auth.user$ | async; then authenticated; else guest"></div>
+<div *ngIf="UserEffects.user$ | async; then authenticated; else guest"></div>
 <ng-template #guest>
-  <div class="wholePage" *ngIf="auth.show">
+  <div class="wholePage" *ngIf="UserEffects.show">
     <img class="img" src="{{ this.slides[this.imageNum] }}" />
     <div class="loginDiv">
       <h1>Pomozite izgubljenim ljubimcima da se vrate svojim vlasnicima</h1>
       <h3>Da biste pristupili sajtu povezite se vasim Gmail nalogom.</h3>
 
-      <button mat-stroked-button (click)="auth.googleSignin()">
+      <button mat-stroked-button (click)="UserEffects.login()">
         <i class="fa fa-google"></i> Connect Google
       </button>
     </div>

@@ -43,6 +43,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { UserEffects } from './store/user/user.effects';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     MatProgressBarModule,
 
     StoreModule.forRoot<AppState>({ pets: petReducer, breeds: breedReducer }),
-    EffectsModule.forRoot([PetEffects, BreedEffects]),
+    EffectsModule.forRoot([PetEffects, BreedEffects,UserEffects]),
 
     StoreDevtoolsModule.instrument({
       maxAge: 25,

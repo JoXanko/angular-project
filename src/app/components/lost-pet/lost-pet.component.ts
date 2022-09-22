@@ -16,7 +16,7 @@ import { nanoid } from 'nanoid';
 import { Breed } from 'src/app/store/breed/breed.model';
 import { loadBreeds } from 'src/app/store/breed/breed.action';
 import { getBreeds } from 'src/app/store/breed/breed.selector';
-import { AuthService } from 'src/app/services/auth.service';
+// import { AuthService } from 'src/app/services/auth.service';
 import { FileUpload } from 'src/app/models/fileUpload';
 import { FileUploadService } from 'src/app/services/fileUpload.service';
 import {
@@ -24,6 +24,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { UserEffects } from 'src/app/store/user/user.effects';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -65,8 +66,8 @@ export class LostPetComponent implements OnInit {
   breeds: Observable<Breed[]> = of([]);
   localDate: Date = new Date();
   imageFile: any;
-  lt: any;
-  lg: any;
+  lt: any = '';
+  lg: any = '';
   BreedControl = new FormControl<string | null>(null, Validators.required);
   nameControl = new FormControl('', [Validators.required]);
   phoneControl = new FormControl('', [Validators.required]);
@@ -107,7 +108,7 @@ export class LostPetComponent implements OnInit {
 
   constructor(
     private uploadService: FileUploadService,
-    public auth: AuthService,
+    public UserEffects: UserEffects,
     private store: Store<AppState>,
     petType: ElementRef<HTMLInputElement>,
     petBreed: ElementRef<HTMLInputElement>,
@@ -124,7 +125,7 @@ export class LostPetComponent implements OnInit {
   }
   userData: any;
   ngOnInit(): void {
-    this.auth.user$.subscribe((e) => {
+    this.UserEffects.user$.subscribe((e) => {
       this.ownerID = e.uid;
       this.ownerN = e.displayName;
     });
@@ -222,7 +223,17 @@ export class LostPetComponent implements OnInit {
           panelClass: [this.greenSanckBar],
         }
       );
+      this.petName.nativeElement.value = '';
+      this.petPhone.nativeElement.value = '';
+      this.petBreed.nativeElement.value = '';
+      this.petDescription.nativeElement.value = '';
+      // this.petType.nativeElement.value= 'false';
+      this.lt = '';
+      this.lg = '';
     } else {
+      var divToShake = document.querySelector('.inputs');
+      console.log(divToShake);
+      divToShake?.classList.toggle('shakeAnimacija');
       this._snackBar.open(
         'Morate popuniti sva polja i staviti lokaciju!',
         this.snackBarAction,
